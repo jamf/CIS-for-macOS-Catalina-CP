@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><extensionAttribute>
+<displayName>CIS_Audit_List</displayName>
+<description>CIS Security Reporting - List Risks</description>
+<dataType>string</dataType>
+<scriptContentsMac>#!/bin/bash&#13;
+&#13;
+# Security Reporting - List Risks&#13;
+&#13;
+auditfile=/Library/Application\ Support/SecurityScoring/org_audit&#13;
+echo "&lt;result&gt;$(cat "$auditfile")&lt;/result&gt;"</scriptContentsMac>
+<scriptContentsWindows/>
+</extensionAttribute>
