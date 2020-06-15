@@ -1,0 +1,15 @@
+CIS 10.12 Benchmarks:
+2.3.1 Set an inactivity interval of 20 minutes or less for the screen saver - LoginWindow payload > Options > Start screen saver after: 20 Minutes of Inactivity
+2.3.2 Secure screen saver corners - Custom payload > com.apple.dock > wvous-tl-corner=0, wvous-br-corner=5, wvous-bl-corner=0, wvous-tr-corner=0
+2.3.3 Set a screen corner to Start Screen Saver - Custom payload > com.apple.dock > wvous-tl-corner=0, wvous-br-corner=5, wvous-bl-corner=0, wvous-tr-corner=0
+2.5.2 Enable Gatekeeper - Security and Privacy payload > General > Gatekeeper > Mac App Store and identified developers (selected)
+2.5.3 Enable Firewall - Security and Privacy payload > Firewall > Enable Firewall (checked)
+2.5.4 Enable Firewall Stealth Mode - Security and Privacy payload > Firewall > Enable stealth mode (checked)
+2.5.5 Review Application Firewall Rules - Security and Privacy payload > Firewall > Control incoming connections for specific apps (selected)
+5.8 Disable automatic login - LoginWindow payload > Options > Disable automatic login (checked)
+5.9 Require a password to wake the computer from sleep or screen saver - Security and Privacy payload > General > Require password * after sleep or screen saver begins (checked)
+5.13 Create a custom message for the Login Screen - LoginWindow payload > Window > Banner (message)
+5.16 Disable Fast User Switching - LoginWindow payload > Options > Enable Fast User Switching (unchecked)
+6.1.1 Display login window as name and password - LoginWindow payload > Window > LOGIN PROMPT > Name and password text fields (selected)
+6.1.2 Disable "Show password hints" - LoginWindow payload > Options > Show password hint when needed and available (checked - Yes this is backwards)
+6.1.3 Disable guest account - LoginWindow payload > Options > Allow Guest User (unchecked)

@@ -1,0 +1,19 @@
+CIS 10.12 Benchmarks:
+2.4.10  Disable Content Caching (Not Scored) - Restrictions payload > Functionality > Allow Content Caching (unchecked)
+2.5.8 Disable sending diagnostic and usage data to Apple - Restrictions payload > Allow Diagnostic Submission (unchecked)
+2.6.1 iCloud system configuration
+Includes:
+Disable preference pane (Not Scored) - Restrictions payload > Preferences > disable selected items > iCloud
+Disable the use of iCloud password for local accounts (Not Scored)  - Restrictions payload > Functionality > Allow use of iCloud password for local accounts (unchecked)
+Disable iCloud Back to My Mac (Not Scored) - Restrictions payload > Functionality > Allow iCloud Back to My Mac (unchecked)
+Disable iCloud Find My Mac (Not Scored) - Restrictions payload > Functionality > Allow iCloud Find My Mac (unchecked)
+Disable iCloud Bookmarks (Not Scored) - Restrictions payload > Functionality > Allow iCloud Bookmarks (unchecked)
+Disable iCloud Mail (Not Scored)  - Restrictions payload > Functionality > Allow iCloud Mail (unchecked)
+Disable iCloud Calendar (Not Scored) - Restrictions payload > Functionality > Allow iCloud Calendar (unchecked)
+Disable iCloud Reminders (Not Scored) - Restrictions payload > Functionality > Allow iCloud Reminders (unchecked)
+Disable iCloud Contacts (Not Scored) - Restrictions payload > Functionality > Allow iCloud Contacts (unchecked)
+Disable iCloud Notes (Not Scored) - Restrictions payload > Functionality > Allow iCloud Notes (unchecked)
+2.6.2 Disable iCloud keychain (Not Scored) - Restrictions payload > Functionality > Allow iCloud Keychain (unchecked)
+2.6.3 Disable iCloud Drive (Not Scored) - Restrictions payload > Functionality > Allow iCloud Drive (unchecked)
+2.6.4 Disable iCloud Drive Document sync - Restrictions payload > Functionality > Allow iCloud Desktop & Documents (unchecked)
+2.6.5 Disable iCloud Drive Desktop sync - Restrictions payload > Functionality > Allow iCloud Desktop & Documents (unchecked)
