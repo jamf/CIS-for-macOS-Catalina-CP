@@ -1464,13 +1464,11 @@ CISCount=$(cat "$auditfilelocation" | grep "*" | wc -l | tr -d '[:space:]')
 CISList=$(cat "$auditfilelocation")
 # Update Count
 
-
 curl -sS -k -i -u $username:$password -X PUT -H "Content-Type: text/xml" -d "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><computer><extension_attributes><extension_attribute><id>$CISCountEA</id><value>$CISCount</value></extension_attribute></extension_attributes></computer>" $JamfProURL/JSSResource/computers/udid/$hardwareUUID > /dev/null
 
 # Update List
 curl -sS -k -i -u $username:$password -X PUT -H "Content-Type: text/xml" -d "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><computer><extension_attributes><extension_attribute><id>$CISListEA</id><value>$CISList</value></extension_attribute></extension_attributes></computer>" $JamfProURL/JSSResource/computers/udid/$hardwareUUID > /dev/null
-else
-	jamf recon
+
 fi
 echo "$(date -u)" "Audit complete" | tee -a "$logFile"
 exit 0
