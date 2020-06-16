@@ -34,6 +34,7 @@
 # github.com/jamfprofessionalservices
 # Updated for 10.13 CIS benchmarks by Erin McDonald, Jamf Jan 2019
 # Updated for 10.15 CIS benchmarks by Erin McDonald, Jamf, March 2020
+# updated for 10.15 CIS benchmarks by Erin McDonald, Jamf 2020
 
 # USAGE
 # Admins set organizational compliance for each listed item, which gets written to plist.
