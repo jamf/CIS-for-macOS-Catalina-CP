@@ -69,7 +69,7 @@ The script writes to /Library/Application Support/SecurityScoring/org_security_s
 For script 2_Security_Audit_Compliance enter the values generated when you configured lines 56 and 57 in parameters 4 and 5. 
 
 * Policy: Some recurring trigger to track compliance over time. 
-__Do not add Update Inventory as script 2_Security_Audit_Compliance will either update Extension Attributes via the API or using the Jamf verb recon.__
+__Do not add Update Inventory if utilizing the API method in the script 2_Security_Audit_Compliance.__
 
 
 NOTES: 
