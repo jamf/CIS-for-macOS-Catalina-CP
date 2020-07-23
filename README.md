@@ -129,7 +129,7 @@ SCORED CIS EXCEPTIONS:
 ## REMEDIATED USING CONFIGURATION PROFILES:
 The following Configuration profiles are available in mobileconfig and plist form.  If you wish to change a particular setting, edit the plist in question.  Mobileconfigs can be uploaded to Jamf Pro Configuration Profiles as is and plists can be added to a new Configuration Profile as Custom Payloads.
 
-### CIS 10.13 Custom Settings mobileconfig
+### CIS 10.15 Custom Settings mobileconfig
 * 1.2 Enable Auto Update
 * 1.5 Enable system data files and security update installed
 * 2.9 Enable Secure Keyboard Entry in terminal.app 
@@ -137,7 +137,7 @@ The following Configuration profiles are available in mobileconfig and plist for
 * 6.1.4 Disable "Allow guests to connect to shared folders" 
 * 6.3 Disable the automatic run of safe files in Safari
 
-### CIS 10.13 LoginWindow Security_and_Privacy ScreenSaver mobileconfig
+### CIS 10.15 LoginWindow Security_and_Privacy ScreenSaver mobileconfig
 * 2.3.1 Set an inactivity interval of 20 minutes or less for the screen saver 
 * 2.3.2 Secure screen saver corners 
 * 2.3.3 Set a screen corner to Start Screen Saver 
@@ -153,7 +153,7 @@ The following Configuration profiles are available in mobileconfig and plist for
 * 6.1.2 Disable "Show password hints" 
 * 6.1.3 Disable guest account 
 
-### CIS 10.13 Restrictions mobileconfig
+### CIS 10.15 Restrictions mobileconfig
 * 2.4.10  Disable Content Caching (Not Scored) - Restrictions payload > Functionality > Allow Content Caching (unchecked)
 * 2.5.8 Disable sending diagnostic and usage data to Apple - Restrictions payload > Allow Diagnostic Submission (unchecked)
 * 2.6.1 iCloud system configuration
