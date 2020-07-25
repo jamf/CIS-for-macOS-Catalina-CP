@@ -183,31 +183,34 @@ Audit2_3_2="$(defaults read "$plistlocation" OrgScore2_3_2)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_3_2" = "1" ]; then
+	killDock=false
 	bl_corner="$(defaults read /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-corner)"
 	tl_corner="$(defaults read /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tl-corner)"
 	tr_corner="$(defaults read /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tr-corner)"
 	br_corner="$(defaults read /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-br-corner)"
 	if [ "$bl_corner" = "6" ]; then
-		echo "Disabling hot corner"
+		echo "Disabling bottom left hot corner"
 		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-corner 1
-		/usr/bin/killall Dock
-		echo "$(date -u)" "2.3.2 remediated" | tee -a "$logFile"
+		killDock=true
 	fi
 	if [ "$tl_corner" = "6" ]; then
-		echo "Disabling hot corner"
+		echo "Disabling top left hot corner"
 		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tl-corner 1
-		/usr/bin/killall Dock
-		echo "$(date -u)" "2.3.2 remediated" | tee -a "$logFile"
+		killDock=true
 	fi
 	if [ "$tr_corner" = "6" ]; then
-		echo "Disabling hot corner"
+		echo "Disabling top right hot corner"
 		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tr-corner 1
-		/usr/bin/killall Dock
-		echo "$(date -u)" "2.3.2 remediated" | tee -a "$logFile"
+		killDock=true
 	fi
 	if [ "$br_corner" = "6" ]; then
-		echo "Disabling hot corner"
+		echo "Disabling bottom right hot corner"
 		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-br-corner 1
+		killDock=true
+	fi
+	## ensure proper ownership of plist
+	chown "$currentUser" /Users/"$currentUser"/Library/Preferences/com.apple.dock.plist
+	if $killDock;then
 		/usr/bin/killall Dock
 		echo "$(date -u)" "2.3.2 remediated" | tee -a "$logFile"
 	fi
