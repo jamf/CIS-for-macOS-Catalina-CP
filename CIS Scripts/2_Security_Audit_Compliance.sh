@@ -530,7 +530,7 @@ fi
 # 2.5.1.2 Ensure all user storage APFS Volumes are encrypted
 # Verify organizational score
 # Audit only.  Does not remediate
-Audit2_5_1_2="$(defaults read "$plistlocation" OrgScore2_6_1_2)"
+Audit2_5_1_2="$(defaults read "$plistlocation" OrgScore2_5_1_2)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit2_5_1_2" = "1" ]; then
 	apfsyes="$(diskutil ap list)"
@@ -732,7 +732,7 @@ fi
 # 2.6.4 iCloud Drive Document sync
 # Configuration Profile - Restrictions payload - > Functionality > Allow iCloud Desktop & Documents (unchecked)
 # Verify organizational score
-Audit2_7_4="$(defaults read "$plistlocation" OrgScore2_7_4)"
+Audit2_7_4="$(defaults read "$plistlocation" OrgScore2_6_4)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit2_6_4" = "1" ]; then
 	# If client fails, then note category in audit file
