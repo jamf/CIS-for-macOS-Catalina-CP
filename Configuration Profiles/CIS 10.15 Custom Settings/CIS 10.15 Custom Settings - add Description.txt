@@ -1,7 +1,8 @@
 CIS 10.12 Benchmarks:
-1.2 Enable Auto Update - Custom payload > com.apple.SoftwareUpdate.plist > AutomaticCheckEnabled=true, AutomaticDownload=true
-1.5 Enable system data files and security update installs - Custom payload > com.apple.SoftwareUpdate.plist > ConfigDataInstall=true, CriticalUpdateInstall=true
-2.9 Enable Secure Keyboard Entry in terminal.app - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
-4.1 Disable Bonjour advertising service - Custom payload > com.apple.mDNSResponder > NoMulticastAdvertisements=true
+1.2   Enable Auto Update - Custom payload > com.apple.SoftwareUpdate.plist > AutomaticCheckEnabled=true, AutomaticDownload=true
+1.5   Enable system data files and security update installs - Custom payload > com.apple.SoftwareUpdate.plist > ConfigDataInstall=true, CriticalUpdateInstall=true
+2.5.9 Enable Limit Ad Tracking - Custom payload > com.apple.AdLib.plist > forceLimitAdTracking=true
+2.9   Enable Secure Keyboard Entry in terminal.app - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
+4.1   Disable Bonjour advertising service - Custom payload > com.apple.mDNSResponder > NoMulticastAdvertisements=true
 6.1.4 Disable Allow guests to connect to shared folders - Custom payload > com.apple.AppleFileServer guestAccess=false, com.apple.smb.server AllowGuestAccess=false
-6.3 Disable the automatic run of safe files in Safari - Custom payload > com.apple.Safari > AutoOpenSafeDownloads=false
+6.3   Disable the automatic run of safe files in Safari - Custom payload > com.apple.Safari > AutoOpenSafeDownloads=false

@@ -224,8 +224,6 @@ OrgScore2_5_8="true"
 OrgScore2_5_9="true"
 # OrgScore2_5_9="false"
 
-#https://gist.github.com/soundsnw/ee74499b87af904fc9f51fc3b23a0e62
-
 # 2.6.1 iCloud configuration (Check for iCloud accounts) (Not Scored)
 OrgScore2_6_1="true"
 # OrgScore2_6_1="false"
