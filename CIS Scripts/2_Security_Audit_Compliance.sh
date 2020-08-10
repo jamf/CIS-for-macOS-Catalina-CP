@@ -41,24 +41,8 @@
 # Non-compliant items are logged to /Library/Application Support/SecurityScoring/org_audit
 # Variables
 
-JamfAPIUpdate="true" # If set to true, use Jamf Pro Clasic API to update
-
-JamfProURL=""  # URL for your Jamf Pro server, including port, if necessary
-
-# Using the GenerateEncryptedSring function, replace ENTER_SALT_HERE and ENTER_PASS_PHRASE_HERE
-#   with the values generated.  See README for more information.
-
-function DecryptString() {
-	# Usage: ~$ DecryptString "Encrypted String" "Salt" "Passphrase"
-	echo "${1}" | /usr/bin/openssl enc -aes256 -d -a -A -S "${2}" -k "${3}"
-}
-
-username=$(DecryptString "${4}" "ENTER_SALT_HERE" "ENTER_PASS_PHRASE_HERE")
-password=$(DecryptString "${5}" "ENTER_SALT_HERE" "ENTER_PASS_PHRASE_HERE")
-
 CISCountEA=""  #ID number for the extension attribute 2.6_Audit_ Count
 CISListEA=""   #ID number for the extension attribute 2.5_Audit_List
-
 
 # DO NOT EDIT BELOW THIS LINE
 ####################################################################################################
@@ -1454,21 +1438,5 @@ if [ "$Audit6_3" = "1" ]; then
 	fi
 fi
 
-# Check for API update. If enabled, update EAs via API. If disabled, use recon
-if [ "$JamfAPIUpdate" == "true" ]; then
-echo "$(date -u)" "Updating extension attributes" | tee -a "$logFile"
-
-# Gather data for EA population
-
-CISCount=$(cat "$auditfilelocation" | grep "*" | wc -l | tr -d '[:space:]')
-CISList=$(cat "$auditfilelocation")
-# Update Count
-
-curl -sS -k -i -u $username:$password -X PUT -H "Content-Type: text/xml" -d "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><computer><extension_attributes><extension_attribute><id>$CISCountEA</id><value>$CISCount</value></extension_attribute></extension_attributes></computer>" $JamfProURL/JSSResource/computers/udid/$hardwareUUID > /dev/null
-
-# Update List
-curl -sS -k -i -u $username:$password -X PUT -H "Content-Type: text/xml" -d "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><computer><extension_attributes><extension_attribute><id>$CISListEA</id><value>$CISList</value></extension_attribute></extension_attributes></computer>" $JamfProURL/JSSResource/computers/udid/$hardwareUUID > /dev/null
-
-fi
 echo "$(date -u)" "Audit complete" | tee -a "$logFile"
 exit 0
