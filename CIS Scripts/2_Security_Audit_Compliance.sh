@@ -1502,5 +1502,3 @@ fi
 
 echo "$(date -u)" "Audit complete" | tee -a "$logFile"
 exit 0
-
-

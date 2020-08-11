@@ -215,6 +215,7 @@ if [ "$Audit2_3_2" = "1" ]; then
 	fi
 	## ensure proper ownership of plist
 	/usr/sbin/chown "$currentUser" /Users/"$currentUser"/Library/Preferences/com.apple.dock.plist
+
 	if $killDock;then
 		/usr/bin/killall Dock
 		echo "$(date -u)" "2.3.2 remediated" | tee -a "$logFile"
@@ -247,7 +248,7 @@ Audit2_4_1="$(defaults read "$plistlocation" OrgScore2_4_1)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_4_1" = "1" ]; then
-		systemsetup -setremoteappleevents off
+		/usr/sbin/systemsetup -setremoteappleevents off
 		echo "$(date -u)" "2.4.1 remediated" | tee -a "$logFile"
 fi
 
