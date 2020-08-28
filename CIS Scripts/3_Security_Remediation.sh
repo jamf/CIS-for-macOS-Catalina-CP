@@ -125,11 +125,12 @@ Audit2_1_1="$(defaults read "$plistlocation" OrgScore2_1_1)"
 # If client fails, then remediate
 if [ "$Audit2_1_1" = "1" ]; then
 	echo "$(date -u)" "Checking 2.1.1" | tee -a "$logFile"
-	connectable="$( system_profiler SPBluetoothDataType | grep Paired | awk '{print $2}' | head -1 )"
-	if [ "$connectable" = "Yes" ]; then
-		echo "$(date -u)" "2.1.1 passed" | tee -a "$logFile"; else
+	connectable="$( system_profiler SPBluetoothDataType | grep -c "Paired: Yes" )"
+	if [ "$connectable" -gt 0 ]; then
+		echo "$(date -u)" "2.1.1 passed" | tee -a "$logFile"
+	else
 		defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerState -bool false
-		killall -HUP blued
+		killall -HUP bluetoothd
 		echo "$(date -u)" "2.1.1 remediated" | tee -a "$logFile"
 	fi
 fi
@@ -151,7 +152,7 @@ Audit2_2_1="$(defaults read "$plistlocation" OrgScore2_2_1)"
 # If client fails, then remediate
 if [ "$Audit2_2_1" = "1" ]; then
 	systemsetup -setusingnetworktime on
-	echo "$(date -u)" "2.4.1 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.2.1 remediated" | tee -a "$logFile"
 fi
 
 # 2.2.2 Ensure time set is within appropriate limits
@@ -160,8 +161,8 @@ fi
 Audit2_2_2="$(defaults read "$plistlocation" OrgScore2_2_2)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit2_2_2" = "1" ]; then
-	systemsetup -setusingnetworktime off
-	systemsetup -setusingnetworktime on
+	systemsetup -setusingnetworktime off 2>&1
+	systemsetup -setusingnetworktime on 2>&1
 #	timeServer="$(systemsetup -getnetworktimeserver | awk '{print $4}')"
 #	ntpdate -sv "$timeServer"
 	echo "$(date -u)" "2.2.2 enforced" | tee -a "$logFile"
@@ -190,26 +191,31 @@ if [ "$Audit2_3_2" = "1" ]; then
 	br_corner="$(defaults read /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-br-corner)"
 	if [ "$bl_corner" = "6" ]; then
 		echo "Disabling bottom left hot corner"
-		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-corner 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-corner -int 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-modifier -int 0
 		killDock=true
 	fi
 	if [ "$tl_corner" = "6" ]; then
 		echo "Disabling top left hot corner"
-		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tl-corner 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tl-corner -int 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tl-modifier -int 0
 		killDock=true
 	fi
 	if [ "$tr_corner" = "6" ]; then
 		echo "Disabling top right hot corner"
-		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tr-corner 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tr-corner -int 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-tr-modifier -int 0
 		killDock=true
 	fi
 	if [ "$br_corner" = "6" ]; then
 		echo "Disabling bottom right hot corner"
-		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-br-corner 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-br-corner -int 1
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-br-modifier -int 0
 		killDock=true
 	fi
 	## ensure proper ownership of plist
-	chown "$currentUser" /Users/"$currentUser"/Library/Preferences/com.apple.dock.plist
+	/usr/sbin/chown "$currentUser" /Users/"$currentUser"/Library/Preferences/com.apple.dock.plist
+
 	if $killDock;then
 		/usr/bin/killall Dock
 		echo "$(date -u)" "2.3.2 remediated" | tee -a "$logFile"
@@ -223,8 +229,16 @@ Audit2_3_3="$(defaults read "$plistlocation" OrgScore2_3_3)"
 # If client fails, then remediate
 # Sets bottom left corner to start screen saver
 if [ "$Audit2_3_3" = "1" ]; then
-		defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-corner 5
+	bl_corner="$(defaults read /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-corner)"
+	if [ "$bl_corner" != "5" ]; then
+		echo "Setting bottom left to start screen saver" | tee -a "$logFile"
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-corner -int 5
+		/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.dock wvous-bl-modifier -int 0
+		## ensure proper ownership of plist
+		/usr/sbin/chown "$currentUser" /Users/"$currentUser"/Library/Preferences/com.apple.dock.plist
+		/usr/bin/killall Dock
 		echo "$(date -u)" "2.3.3 remediated" | tee -a "$logFile"
+	fi
 fi
 
 # 2.4.1 Disable Remote Apple Events 
@@ -250,6 +264,34 @@ if [ "$Audit2_4_2" = "1" ]; then
 	/usr/libexec/PlistBuddy -c "Add :NAT:Enabled bool false" /Library/Preferences/SystemConfiguration/com.apple.nat.plist
 	/usr/libexec/PlistBuddy -c "Delete :NAT:PrimaryInterface:Enabled"  /Library/Preferences/SystemConfiguration/com.apple.nat.plist
 	/usr/libexec/PlistBuddy -c "Add :NAT:PrimaryInterface:Enabled bool false" /Library/Preferences/SystemConfiguration/com.apple.nat.plist
+	
+	## breaks internet connection sharing
+	cat > /Library/LaunchDaemons/sysctl.plist << EOF
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Label</key>
+		<string>sysctl</string>
+		<key>ProgramArguments</key>
+		<array>
+			<string>/usr/sbin/sysctl</string>
+			<string>net.inet.ip.forwarding=0</string>
+		</array>
+		<key>WatchPaths</key>
+		<array>
+			<string>/Library/Preferences/SystemConfiguration</string>
+		</array>
+		<key>RunAtLoad</key>
+		<true/>
+	</dict>
+</plist>
+EOF
+	if [ $(/bin/launchctl list | grep sysctl | awk '{ print $NF }') = "sysctl" ];then
+		/bin/launchctl unload /Library/LaunchDaemons/sysctl.plist
+	fi
+	/bin/launchctl load /Library/LaunchDaemons/sysctl.plist
+    
 	echo "$(date -u)" "2.4.2 enforced" | tee -a "$logFile"
 fi
 
@@ -259,7 +301,7 @@ Audit2_4_3="$(defaults read "$plistlocation" OrgScore2_4_3)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_4_3" = "1" ]; then
-	launchctl unload -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
+	/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
 	/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop
 	echo "$(date -u)" "2.4.3 remediated" | tee -a "$logFile"
 fi
@@ -294,7 +336,7 @@ Audit2_4_6="$(defaults read "$plistlocation" OrgScore2_4_6)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_4_6" = "1" ]; then
-	launchctl unload -w /System/Library/LaunchDaemons/com.apple.ODSAgent.plist
+	/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.ODSAgent.plist
 	echo "$(date -u)" "2.4.6 remediated" | tee -a "$logFile"
 fi
 
@@ -315,8 +357,8 @@ Audit2_4_8="$(defaults read "$plistlocation" OrgScore2_4_8)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_4_8" = "1" ]; then
-	launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist
-	launchctl unload -w /System/Library/LaunchDaemons/com.apple.smbd.plist
+	/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist
+	/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.smbd.plist
 	echo "$(date -u)" "2.4.8 remediated" | tee -a "$logFile"
 fi
 
@@ -326,7 +368,7 @@ Audit2_4_9="$(defaults read "$plistlocation" OrgScore2_4_9)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_4_9" = "1" ]; then
-	launchctl unload -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
+	/bin/launchctl unload -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
 	/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -deactivate -stop
 	echo "$(date -u)" "2.4.9 remediated" | tee -a "$logFile"
 fi
@@ -347,11 +389,11 @@ Audit2_4_11="$(defaults read "$plistlocation" OrgScore2_4_11)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_4_11" = "1" ]; then
-	launchctl unload -w /System/Library/LaunchAgents/com.apple.amp.mediasharingd.plist
-    launchctl disable gui/"$currentUserID"/com.apple.amp.mediasharingd
+	/bin/launchctl unload -w /System/Library/LaunchAgents/com.apple.amp.mediasharingd.plist
+    /bin/launchctl disable gui/"$currentUserID"/com.apple.amp.mediasharingd
 	/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.amp.mediasharingd.plist home-sharing-enabled -int 0
 	/usr/bin/defaults write /Users/"$currentUser"/Library/Preferences/com.apple.amp.mediasharingd.plist public-sharing-enabled -int 0
-	launchctl kill 9 gui/"$currentUserID"/com.apple.amp.mediasharingd
+	/bin/launchctl kill 9 gui/"$currentUserID"/com.apple.amp.mediasharingd
 	echo "$(date -u)" "2.4.11 remediated - requires restart" | tee -a "$logFile"
 fi
 
@@ -404,14 +446,23 @@ Audit2_5_8="$(defaults read "$plistlocation" OrgScore2_5_8)"
 # If client fails, then remediate
 if [ "$Audit2_5_8" = "1" ]; then
 	AppleDiagn=$(defaults read /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit)
-		if [ $AppleDiagn == 1 ]; then 
-	defaults write /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit -int 0
-	echo "$(date -u)" "2.5.8 remediated" | tee -a "$logFile"
-fi
+	if [ $AppleDiagn == 1 ]; then 
+		defaults write /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit -int 0
+		echo "$(date -u)" "2.5.8 remediated" | tee -a "$logFile"
+	fi
 fi
 
-# 2.5.9 Force Limited Ad Tracking 
-# defaults write /Users/"$currentUser"/Library/Preferences/com.apple.Terminal SecureKeyboardEntry -bool true ?
+# 2.5.9 Force Limited Ad Tracking
+# Verify Organizational score
+Audit2_5_9="$(defaults read "$plistlocation" OrgScore2_5_9)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit2_5_9" = "1" ]; then
+	defaults write /Users/"${currentUser}"/Library/Preferences/com.apple.AdLib.plist forceLimitAdTracking -bool true
+	chown "${currentUser}":staff /Users/"${currentUser}"/Library/Preferences/com.apple.AdLib.plist
+	echo "$(date -u)" "2.5.9 consider using a configuration profile" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.9 remediated" | tee -a "$logFile"
+fi
 
 # 2.7.1 Time Machine Auto-Backup
 # Verify organizational score
@@ -459,14 +510,9 @@ fi
 Audit3_1="$(defaults read "$plistlocation" OrgScore3_1)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit3_2" = "1" ]; then
-	echo "$(date -u)" "Checking 3.2" | tee -a "$logFile"
-	auditdEnabled=$(launchctl list | grep -c auditd)
-	if [ "$auditdEnabled" -gt "0" ]; then
-		echo "$(date -u)" "3.1.3 passed" | tee -a "$logFile"; else
-		launchctl load -w /System/Library/LaunchDaemons/com.apple.auditd.plist
-		echo "$(date -u)" "3.2 remediated" | tee -a "$logFile"
-	fi
+if [ "$Audit3_1" = "1" ]; then
+	/bin/launchctl load -w /System/Library/LaunchDaemons/com.apple.auditd.plist
+	echo "$(date -u)" "3.1 remediated" | tee -a "$logFile"
 fi
 
 # 3.2 Configure Security Auditing Flags
@@ -494,7 +540,20 @@ if [ "$Audit3_3" = "1" ]; then
 	chmod 644 /etc/security/audit_control
 	chown root:wheel /etc/security/audit_control
 	echo "$(date -u)" "3.3 remediated" | tee -a "$logfile"	
-    fi
+fi
+
+# 3.4 Control access to audit records
+# Verify organizational score
+Audit3_4="$(defaults read "$plistlocation" OrgScore3_4)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit3_4" = "1" ]; then
+	chown -R root:wheel /var/audit
+	chmod -R 440 /var/audit
+	chown root:wheel /etc/security/audit_control
+	chmod 400 /etc/security/audit_control
+	"$(date -u)" "3.3 remediated" | tee -a "$logfile"	
+fi
 
 # 3.5 Retain install.log for 365 or more days 
 # Verify organizational score
@@ -568,7 +627,7 @@ Audit4_5="$(defaults read "$plistlocation" OrgScore4_5)"
 # If client fails, then remediate
 if [ "$Audit4_5" = "1" ]; then
 	nfsd disable
-	rm -rf /etc/export
+	rm -rf /etc/exports
 	echo "$(date -u)" "4.5 remediated" | tee -a "$logFile"
 fi
 
@@ -711,7 +770,7 @@ Audit5_10="$(defaults read "$plistlocation" OrgScore5_10)"
 # If client fails, then remediate
 if [ "$Audit5_10" = "1" ]; then
 	pmset -a standbydelayhigh 600
-	pmset -a highstandbythreshold 90
+	pmset -a standbydelaylow 600
 	pmset -a highstandbythreshold 90
 	pmset -a destroyfvkeyonstandby 1
 	echo "$(date -u)" "5.10 remediated" | tee -a "$logFile"
@@ -820,11 +879,11 @@ echo "$(date -u)" "Checking 6.1.4" | tee -a "$logFile"
 	afpGuestEnabled="$(defaults read /Library/Preferences/com.apple.AppleFileServer guestAccess)"
 	smbGuestEnabled="$(defaults read /Library/Preferences/SystemConfiguration/com.apple.smb.server AllowGuestAccess)"
 	if [ "$afpGuestEnabled" = "1" ]; then
-		defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool no
+		defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool false
 		echo "$(date -u)" "6.1.4 remediated" | tee -a "$logFile";
 	fi
 	if [ "$smbGuestEnabled" = "1" ]; then
-		defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server AllowGuestAccess -bool no
+		defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server AllowGuestAccess -bool false
 		echo "$(date -u)" "6.1.4 remediated" | tee -a "$logFile";
 	fi
 fi
@@ -863,3 +922,6 @@ fi
 echo "$(date -u)" "Remediation complete" | tee -a "$logFile"
 echo "continue"
 exit 0
+
+
+
