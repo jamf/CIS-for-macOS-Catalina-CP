@@ -15,9 +15,7 @@ Reads contents of /Library/Application Support/SecurityScoring/org_audit file an
 Set as Data Type "Integer." 
 Reads contents of /Library/Application Support/SecurityScoring/org_audit file and records count of items to Jamf Pro inventory record. Usable with smart group logic (2.6_Audit_Count greater than 0) to immediately determine computers not in compliance.
 
-1. After creation, make note of the ID number of these Extension Attributes.  To find the ID, select the Extension Attribute then click into your browser's address bar.  The ID number is after the "id=" in the URL. 
-
-2. Add the following scripts to your Jamf Pro  
+Add the following scripts to your Jamf Pro  
 * 1_Set_Organization_Priorities  
 * 2_Security_Audit_Compliance
 * 3_Security_Remediation
