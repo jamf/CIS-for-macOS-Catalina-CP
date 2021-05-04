@@ -336,11 +336,11 @@ OrgScore5_1_4="true"
 OrgScore5_3="true"
 # OrgScore5_3="false"
 
-# 5.4 Use a separate timestamp for each user/tty combo
+# 5.4 Automatically lock the login keychain for inactivity
 OrgScore5_4="true"
 # OrgScore5_4="false"
 
-# 5.5 Automatically lock the login keychain for inactivity
+# 5.5 Use a separate timestamp for each user/tty combo
 # This is a very bad idea. It will confuse users.
 # OrgScore5_5="true"
 OrgScore5_5="false"

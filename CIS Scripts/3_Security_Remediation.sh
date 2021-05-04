@@ -680,35 +680,35 @@ if [ "$Audit5_3" = "1" ]; then
 	echo "$(date -u)" "5.3 remediated" | tee -a "$logFile"
 fi
 
-# 5.4 Use a separate timestamp for each user/tty combo
+# 5.5 Use a separate timestamp for each user/tty combo
 # Verify organizational score
-Audit5_4="$(defaults read "$plistlocation" OrgScore5_4)"
+Audit5_5="$(defaults read "$plistlocation" OrgScore5_5)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit5_4" = "1" ]; then
+if [ "$Audit5_5" = "1" ]; then
 	sed -i ".old" '/Default !tty_tickets/d' /etc/sudoers
 	chmod 644 /etc/sudoers
 	chown root:wheel /etc/sudoers
-	echo "$(date -u)" "5.4 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "5.5 remediated" | tee -a "$logFile"
 fi
 
-# 5.5 Automatically lock the login keychain for inactivity
+# 5.4 Automatically lock the login keychain for inactivity
 # 5.6 Ensure login keychain is locked when the computer sleeps
-# If both 5.5 and 5.6 need to be set, both commands must be run at the same time
+# If both 5.4 and 5.6 need to be set, both commands must be run at the same time
 # Verify organizational score
-Audit5_5="$(defaults read "$plistlocation" OrgScore5_5)"
+Audit5_4="$(defaults read "$plistlocation" OrgScore5_4)"
 Audit5_6="$(defaults read "$plistlocation" OrgScore5_6)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit5_5" = "1" ] && [ "$Audit5_6" = 1 ]; then
-echo "$(date -u)" "Checking 5.5 and 5.6" | tee -a "$logFile"
+if [ "$Audit5_4" = "1" ] && [ "$Audit5_6" = 1 ]; then
+echo "$(date -u)" "Checking 5.4 and 5.6" | tee -a "$logFile"
 	security set-keychain-settings -l -u -t 21600s /Users/"$currentUser"/Library/Keychains/login.keychain
-	echo "$(date -u)" "5.5 and 5.6 remediated" | tee -a "$logFile"
-	elif [ "$Audit5_5" = "1" ] && [ "$Audit5_6" = 0 ]; then
-		echo "$(date -u)" "Checking 5.5" | tee -a "$logFile"
+	echo "$(date -u)" "5.4 and 5.6 remediated" | tee -a "$logFile"
+	elif [ "$Audit5_4" = "1" ] && [ "$Audit5_6" = 0 ]; then
+		echo "$(date -u)" "Checking 5.4" | tee -a "$logFile"
 		security set-keychain-settings -u -t 21600s /Users/"$currentUser"/Library/Keychains/login.keychain
-		echo "$(date -u)" "5.5 remediated" | tee -a "$logFile"
-		elif [ "$Audit5_5" = "0" ] && [ "$Audit5_6" = 1 ]; then
+		echo "$(date -u)" "5.4 remediated" | tee -a "$logFile"
+		elif [ "$Audit5_4" = "0" ] && [ "$Audit5_6" = 1 ]; then
 			echo "$(date -u)" "Checking 5.6" | tee -a "$logFile"
 			security set-keychain-settings -l /Users/"$currentUser"/Library/Keychains/login.keychain
 			echo "$(date -u)" "5.6 remediated" | tee -a "$logFile"

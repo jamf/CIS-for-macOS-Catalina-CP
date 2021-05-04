@@ -1061,30 +1061,31 @@ if [ "$Audit5_3" = "1" ]; then
 	fi
 fi
 
-# 5.4 Use a separate timestamp for each user/tty combo
+
+# 5.5 Automatically lock the login keychain for inactivity
 # Verify organizational score
 Audit5_4="$($Defaults read "$plistlocation" OrgScore5_4)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit5_4" = "1" ]; then
-	ttyTimestamp="$(cat /etc/sudoers | egrep tty_tickets)"
+	keyTimeout="$(security show-keychain-info /Users/"$currentUser"/Library/Keychains/login.keychain 2>&1 | grep -c "no-timeout")"
 	# If client fails, then note category in audit file
-	if [ "$ttyTimestamp" != "" ]; then
-		echo "* 5.4 Use a separate timestamp for each user/tty combo" >> "$auditfilelocation"
+	if [ "$keyTimeout" -gt 0 ]; then
+		echo "* 5.4 Automatically lock the login keychain for inactivity" >> "$auditfilelocation"
 		echo "$(date -u)" "5.4 fix" | tee -a "$logFile"; else
 		echo "$(date -u)" "5.4 passed" | tee -a "$logFile"
 		$Defaults write "$plistlocation" OrgScore5_4 -bool false
 	fi
 fi
 
-# 5.5 Automatically lock the login keychain for inactivity
+# 5.5 Use a separate timestamp for each user/tty combo
 # Verify organizational score
 Audit5_5="$($Defaults read "$plistlocation" OrgScore5_5)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit5_5" = "1" ]; then
-	keyTimeout="$(security show-keychain-info /Users/"$currentUser"/Library/Keychains/login.keychain 2>&1 | grep -c "no-timeout")"
+	ttyTimestamp="$(cat /etc/sudoers | egrep tty_tickets)"
 	# If client fails, then note category in audit file
-	if [ "$keyTimeout" -gt 0 ]; then
-		echo "* 5.5 Automatically lock the login keychain for inactivity" >> "$auditfilelocation"
+	if [ "$ttyTimestamp" != "" ]; then
+		echo "* 5.5 Use a separate timestamp for each user/tty combo" >> "$auditfilelocation"
 		echo "$(date -u)" "5.5 fix" | tee -a "$logFile"; else
 		echo "$(date -u)" "5.5 passed" | tee -a "$logFile"
 		$Defaults write "$plistlocation" OrgScore5_5 -bool false
