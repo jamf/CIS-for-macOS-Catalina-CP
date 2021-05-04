@@ -509,26 +509,49 @@ if [ "$Audit3_2" = "1" ]; then
 	echo "$(date -u)" "3.2 remediated" | tee -a "$logFile"
 fi
 
-# 3.3 Ensure security auditing retention
+# 3.3 Retain install.log for 365 or more days 
 # Verify organizational score
 Audit3_3="$(defaults read "$plistlocation" OrgScore3_3)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit3_3" = "1" ]; then
-	cp /etc/security/audit_control /etc/security/audit_control_old
-	oldExpireAfter=$(cat /etc/security/audit_control | egrep expire-after)
-	sed "s/${oldExpireAfter}/expire-after:60d OR 1G/g" /etc/security/audit_control_old > /etc/security/audit_control
-	chmod 644 /etc/security/audit_control
-	chown root:wheel /etc/security/audit_control
-	echo "$(date -u)" "3.3 remediated" | tee -a "$logfile"	
+	installRetention="$(grep -i ttl /etc/asl/com.apple.install | awk -F'ttl=' '{print $2}')"
+	if [[ "$installRetention" = "" ]]; then
+		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
+		sed '$s/$/ ttl=365/' /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
+		chmod 644 /etc/asl/com.apple.install
+		chown root:wheel /etc/asl/com.apple.install
+		echo "$(date -u)" "3.3 remediated" | tee -a "$logfile"	
+	else
+	if [[ "$installRetention" -lt "365" ]]; then
+		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
+		sed "s/"ttl=$installRetention"/"ttl=365"/g" /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
+		chmod 644 /etc/asl/com.apple.install
+		chown root:wheel /etc/asl/com.apple.install
+		echo "$(date -u)" "3.3 remediated" | tee -a "$logfile"	
+	fi
+	fi
 fi
-
-# 3.4 Control access to audit records
+# 3.4 Ensure security auditing retention
 # Verify organizational score
 Audit3_4="$(defaults read "$plistlocation" OrgScore3_4)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit3_4" = "1" ]; then
+	cp /etc/security/audit_control /etc/security/audit_control_old
+	oldExpireAfter=$(cat /etc/security/audit_control | egrep expire-after)
+	sed "s/${oldExpireAfter}/expire-after:60d OR 1G/g" /etc/security/audit_control_old > /etc/security/audit_control
+	chmod 644 /etc/security/audit_control
+	chown root:wheel /etc/security/audit_control
+	echo "$(date -u)" "3.4 remediated" | tee -a "$logfile"	
+fi
+
+# 3.5 Control access to audit records
+# Verify organizational score
+Audit3_5="$(defaults read "$plistlocation" OrgScore3_5)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit3_5" = "1" ]; then
 	chown -R root:wheel /var/audit
 	chmod -R 440 /var/audit
 	chown root:wheel /etc/security/audit_control
@@ -536,29 +559,6 @@ if [ "$Audit3_4" = "1" ]; then
 	"$(date -u)" "3.3 remediated" | tee -a "$logfile"	
 fi
 
-# 3.5 Retain install.log for 365 or more days 
-# Verify organizational score
-Audit3_5="$(defaults read "$plistlocation" OrgScore3_5)"
-# If organizational score is 1 or true, check status of client
-# If client fails, then remediate
-if [ "$Audit3_5" = "1" ]; then
-	installRetention="$(grep -i ttl /etc/asl/com.apple.install | awk -F'ttl=' '{print $2}')"
-	if [[ "$installRetention" = "" ]]; then
-		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
-		sed '$s/$/ ttl=365/' /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
-		chmod 644 /etc/asl/com.apple.install
-		chown root:wheel /etc/asl/com.apple.install
-		echo "$(date -u)" "3.5 remediated" | tee -a "$logfile"	
-	else
-	if [[ "$installRetention" -lt "365" ]]; then
-		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
-		sed "s/"ttl=$installRetention"/"ttl=365"/g" /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
-		chmod 644 /etc/asl/com.apple.install
-		chown root:wheel /etc/asl/com.apple.install
-		echo "$(date -u)" "3.5 remediated" | tee -a "$logfile"	
-	fi
-	fi
-fi
 
 # 3.6 Ensure firewall is configured to log
 # Verify organizational score

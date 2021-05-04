@@ -273,15 +273,15 @@ OrgScore3_1="true"
 OrgScore3_2="true"
 # OrgScore3_2="false"
 
-# 3.3 Ensure security auditing retention
+# 3.3 Retain install.log for 365 or more days
 OrgScore3_3="true"
 # OrgScore3_3="false"
 
-# 3.4 Control access to audit records
+# 3.4 Ensure security auditing retention
 OrgScore3_4="true"
 # OrgScore3_4="false"
 
-# 3.5 Retain install.log for 365 or more days 
+# 3.5 Control access to audit records 
 OrgScore3_5="true"
 # OrgScore3_5="false"
 

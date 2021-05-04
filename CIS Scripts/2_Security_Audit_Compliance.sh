@@ -858,52 +858,53 @@ if [ "$Audit3_2" = "1" ]; then
 	fi
 fi
 
-# 3.3 Ensure security auditing retention
+# 3.3 Retain install.log for 365 or more days 
 # Verify organizational score
 Audit3_3="$($Defaults read "$plistlocation" OrgScore3_3)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit3_3" = "1" ]; then
-	auditRetention="$(cat /etc/security/audit_control | egrep expire-after)"
-	if [ "$auditRetention" = "expire-after:60d OR 1G" ]; then
+	installRetention="$(grep -i ttl /etc/asl/com.apple.install | awk -F'ttl=' '{print $2}')"
+	# If client fails, then note category in audit file
+	if [[ "$installRetention" = "" ]] || [[ "$installRetention" -lt "365" ]]; then
+		echo "* 3.3 Retain install.log for 365 or more days" >> "$auditfilelocation"
+		echo "$(date -u)" "3.3 fix" | tee -a "$logFile"; else
 		echo "$(date -u)" "3.3 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore3_3 -bool false; else
-		echo "* 3.3 Ensure security auditing retention" >> "$auditfilelocation"
-		echo "$(date -u)" "3.3 fix" | tee -a "$logFile"
-		fi
+		$Defaults write "$plistlocation" OrgScore3_3 -bool false
 	fi
-		
+fi
 
-# 3.4 Control access to audit records
-# Audit only.  Remediation requires system inspection.
+# 3.4 Ensure security auditing retention
 # Verify organizational score
 Audit3_4="$($Defaults read "$plistlocation" OrgScore3_4)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit3_4" = "1" ]; then
-	etccheck=$(ls -le /etc/security/audit_control | grep -v '\-r--------  1 root  wheel')
-	varcheck=$(ls -le /var/audit | grep -v '\-r--r-----  1 root  wheel\|current\|total')
-	if [[ "$etccheck" = "" ]] && [[ "$varcheck" = "" ]]; then
+	auditRetention="$(cat /etc/security/audit_control | egrep expire-after)"
+	if [ "$auditRetention" = "expire-after:60d OR 1G" ]; then
 		echo "$(date -u)" "3.4 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore3_4 -bool false
-	else
-		echo "* 3.4 Control access to audit records" >> "$auditfilelocation"
+		$Defaults write "$plistlocation" OrgScore3_4 -bool false; else
+		echo "* 3.4 Ensure security auditing retention" >> "$auditfilelocation"
 		echo "$(date -u)" "3.4 fix" | tee -a "$logFile"
+		fi
 	fi
-fi
-	
-# 3.5 Retain install.log for 365 or more days 
+		
+
+# 3.5 Control access to audit records
+# Audit only.  Remediation requires system inspection.
 # Verify organizational score
 Audit3_5="$($Defaults read "$plistlocation" OrgScore3_5)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit3_5" = "1" ]; then
-	installRetention="$(grep -i ttl /etc/asl/com.apple.install | awk -F'ttl=' '{print $2}')"
-	# If client fails, then note category in audit file
-	if [[ "$installRetention" = "" ]] || [[ "$installRetention" -lt "365" ]]; then
-		echo "* 3.5 Retain install.log for 365 or more days" >> "$auditfilelocation"
-		echo "$(date -u)" "3.5 fix" | tee -a "$logFile"; else
+	etccheck=$(ls -le /etc/security/audit_control | grep -v '\-r--------  1 root  wheel')
+	varcheck=$(ls -le /var/audit | grep -v '\-r--r-----  1 root  wheel\|current\|total')
+	if [[ "$etccheck" = "" ]] && [[ "$varcheck" = "" ]]; then
 		echo "$(date -u)" "3.5 passed" | tee -a "$logFile"
 		$Defaults write "$plistlocation" OrgScore3_5 -bool false
+	else
+		echo "* 3.5 Control access to audit records" >> "$auditfilelocation"
+		echo "$(date -u)" "3.5 fix" | tee -a "$logFile"
 	fi
 fi
+	
 
 # 3.6 Ensure Firewall is configured to log
 # Verify organizational score
