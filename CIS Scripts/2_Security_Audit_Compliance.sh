@@ -1279,18 +1279,18 @@ if [ "$Audit5_16" = "1" ]; then
 	fi
 fi
 
-# 5.19 System Integrity Protection status
+# 5.18 System Integrity Protection status
 # Verify organizational score
-Audit5_19="$($Defaults read "$plistlocation" OrgScore5_19)"
+Audit5_18="$($Defaults read "$plistlocation" OrgScore5_18)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit5_19" = "1" ]; then
+if [ "$Audit5_18" = "1" ]; then
 	sipEnabled="$(/usr/bin/csrutil status | awk '{print $5}')"
 	# If client fails, then note category in audit file
 	if [ "$sipEnabled" = "enabled." ]; then
-		echo "$(date -u)" "5.19 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore5_19 -bool false; else
-		echo "* 5.19 System Integrity Protection status - not enabled" >> "$auditfilelocation"
-		echo "$(date -u)" "5.19 fix" | tee -a "$logFile"
+		echo "$(date -u)" "5.18 passed" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore5_18 -bool false; else
+		echo "* 5.18 System Integrity Protection status - not enabled" >> "$auditfilelocation"
+		echo "$(date -u)" "5.18 fix" | tee -a "$logFile"
 	fi
 fi
 

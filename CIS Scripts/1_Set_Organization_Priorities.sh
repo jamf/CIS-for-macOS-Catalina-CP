@@ -396,11 +396,10 @@ OrgScore5_16="true"
 
 ## 5.17 Secure individual keychains and items (Not Scored)
 
-## 5.18 Create specialized keychains for different purposes (Not Scored)
 
-# 5.19 System Integrity Protection status
-OrgScore5_19="true"
-# OrgScore5_19="false"
+# 5.18 System Integrity Protection status
+OrgScore5_18="true"
+# OrgScore5_18="false"
 
 # 6.1.1 Display login window as name and password 
 # Configuration Profile - LoginWindow payload > Window > LOGIN PROMPT > Name and password text fields (selected)
@@ -587,8 +586,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore5_14}/>
 		<key>OrgScore5_16</key>
 		<${OrgScore5_16}/>
-		<key>OrgScore5_19</key>
-		<${OrgScore5_19}/>
+		<key>OrgScore5_18</key>
+		<${OrgScore5_18}/>
 		<key>OrgScore6_1_1</key>
 		<${OrgScore6_1_1}/>
 		<key>OrgScore6_1_2</key>
