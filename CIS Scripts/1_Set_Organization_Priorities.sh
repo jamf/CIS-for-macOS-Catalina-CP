@@ -189,10 +189,10 @@ OrgScore2_5_1_3="true"
 OrgScore2_5_2_1="true"
 # OrgScore2_5_2_1="false"
 
-# 2.5.3 Enable Firewall 
+# 2.5.2.2 Enable Firewall 
 # Configuration Profile - Security and Privacy payload > Firewall > Enable Firewall (checked)
-OrgScore2_5_3="true"
-# OrgScore2_5_3="false"
+OrgScore2_5_2_2="true"
+# OrgScore2_5_2_2="false"
 
 # 2.5.4 Enable Firewall Stealth Mode 
 # Configuration Profile - Security and Privacy payload > Firewall > Enable stealth mode (checked)
@@ -515,8 +515,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_5_1_3}/>
 		<key>OrgScore2_5_2_1</key>
 		<${OrgScore2_5_2_1}/>
-		<key>OrgScore2_5_3</key>
-		<${OrgScore2_5_3}/>
+		<key>OrgScore2_5_2_2</key>
+		<${OrgScore2_5_2_2}/>
 		<key>OrgScore2_5_4</key>
 		<${OrgScore2_5_4}/>
 		<key>OrgScore2_5_5</key>

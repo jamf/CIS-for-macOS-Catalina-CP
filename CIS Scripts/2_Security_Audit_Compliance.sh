@@ -588,23 +588,23 @@ if [ "$Audit2_5_2_1" = "1" ]; then
 	fi
 fi
 
-# 2.5.3 Enable Firewall 
+# 2.5.2.2 Enable Firewall 
 # Configuration Profile - Security and Privacy payload > Firewall > Enable Firewall (checked)
 # Verify organizational score
-Audit2_5_3="$($Defaults read "$plistlocation" OrgScore2_5_3)"
+Audit2_5_2_2="$($Defaults read "$plistlocation" OrgScore2_5_2_2)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit2_5_3" = "1" ]; then
+if [ "$Audit2_5_2_2" = "1" ]; then
 	CP_firewallEnabled="$(/usr/sbin/system_profiler SPConfigurationProfileDataType | /usr/bin/grep -c 'EnableFirewall = 1')"
 	# If client fails, then note category in audit file
 	if [[ "$CP_firewallEnabled" -gt "0" ]] ; then
-		echo "$(date -u)" "2.5.3 passed cp" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_5_3 -bool false; else
+		echo "$(date -u)" "2.5.2.2 passed cp" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_5_2_2 -bool false; else
 		firewallEnabled="$($Defaults read /Library/Preferences/com.apple.alf globalstate)"
 		if [ "$firewallEnabled" = "0" ]; then
-			echo "* 2.5.3 Enable Firewall" >> "$auditfilelocation"
-			echo "$(date -u)" "2.5.3 fix" | tee -a "$logFile"; else
-			echo "$(date -u)" "2.5.3 passed" | tee -a "$logFile"
-			$Defaults write "$plistlocation" OrgScore2_5_3 -bool false
+			echo "* 2.5.2.2 Enable Firewall" >> "$auditfilelocation"
+			echo "$(date -u)" "2.5.2.2 fix" | tee -a "$logFile"; else
+			echo "$(date -u)" "2.5.2.2 passed" | tee -a "$logFile"
+			$Defaults write "$plistlocation" OrgScore2_5_2_2 -bool false
 		fi
 	fi
 fi

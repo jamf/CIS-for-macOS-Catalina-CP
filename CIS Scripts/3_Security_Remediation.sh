@@ -407,15 +407,15 @@ if [ "$Audit2_5_2_1" = "1" ]; then
 	echo "$(date -u)" "2.5.2.1 remediated" | tee -a "$logFile"
 fi
 
-# 2.5.3 Enable Firewall 
+# 2.5.2.2 Enable Firewall 
 # Remediation sets Firewall on for essential services
 # Verify organizational score
-Audit2_5_3="$(defaults read "$plistlocation" OrgScore2_5_3)"
+Audit2_5_2_2="$(defaults read "$plistlocation" OrgScore2_5_2_2)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_3" = "1" ]; then
+if [ "$Audit2_5_2_2" = "1" ]; then
 	defaults write /Library/Preferences/com.apple.alf globalstate -int 2
-	echo "$(date -u)" "2.5.3 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.2.2 remediated" | tee -a "$logFile"
 fi
 
 # 2.5.4 Enable Firewall Stealth Mode 
