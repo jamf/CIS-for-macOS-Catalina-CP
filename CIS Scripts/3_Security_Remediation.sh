@@ -135,14 +135,14 @@ if [ "$Audit2_1_1" = "1" ]; then
 	fi
 fi
 
-# 2.1.3 Show Bluetooth status in menu bar
+# 2.1.2 Show Bluetooth status in menu bar
 # Verify organizational score
-Audit2_1_3="$(defaults read "$plistlocation" OrgScore2_1_3)"
+Audit2_1_2="$(defaults read "$plistlocation" OrgScore2_1_2)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_1_3" = "1" ]; then
+if [ "$Audit2_1_2" = "1" ]; then
 	open "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
-	echo "$(date -u)" "2.1.3 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.1.2 remediated" | tee -a "$logFile"
 fi
 
 ## 2.2.1 Enable "Set time and date automatically" (Not Scored)

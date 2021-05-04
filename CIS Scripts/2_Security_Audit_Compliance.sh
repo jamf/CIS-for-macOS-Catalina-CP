@@ -210,18 +210,18 @@ if [ "$Audit2_1_1" = "1" ]; then
 	fi
 fi
 
-# 2.1.3 Show Bluetooth status in menu bar
+# 2.1.2 Show Bluetooth status in menu bar
 # Verify organizational score
-Audit2_1_3="$($Defaults read "$plistlocation" OrgScore2_1_3)"
+Audit2_1_2="$($Defaults read "$plistlocation" OrgScore2_1_2)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit2_1_3" = "1" ]; then
+if [ "$Audit2_1_2" = "1" ]; then
 	btMenuBar="$($Defaults read /Users/"$currentUser"/Library/Preferences/com.apple.systemuiserver menuExtras | grep -c Bluetooth.menu)"
 	# If client fails, then note category in audit file
 	if [ "$btMenuBar" = "0" ]; then
-		echo "* 2.1.3 Show Bluetooth status in menu bar" >> "$auditfilelocation"
-		echo "$(date -u)" "2.1.3 fix" | tee -a "$logFile"; else
-		echo "$(date -u)" "2.1.3 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_1_3 -bool false
+		echo "* 2.1.2 Show Bluetooth status in menu bar" >> "$auditfilelocation"
+		echo "$(date -u)" "2.1.2 fix" | tee -a "$logFile"; else
+		echo "$(date -u)" "2.1.2 passed" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_1_2 -bool false
 	fi
 fi
 

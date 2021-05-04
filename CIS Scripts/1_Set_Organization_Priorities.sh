@@ -89,13 +89,9 @@ OrgScore1_6="true"
 OrgScore2_1_1="true"
 # OrgScore2_1_1="false"
 
-## 2.1.2 Turn off Bluetooth "Discoverable" mode when not pairing devices - not applicable to 10.9 and higher.
-## Starting with OS X (10.9) Bluetooth is only set to Discoverable when the Bluetooth System Preference is selected. 
-## To ensure that the computer is not Discoverable do not leave that preference open.
-
-# 2.1.3 Show Bluetooth status in menu bar 
-OrgScore2_1_3="true"
-# OrgScore2_1_3="false"
+# 2.1.2 Show Bluetooth status in menu bar 
+OrgScore2_1_2="true"
+# OrgScore2_1_2="false"
 
 # 2.2.1 Enable "Set time and date automatically" 
 OrgScore2_2_1="true"
@@ -477,8 +473,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore1_6}/>
 		<key>OrgScore2_1_1</key>
 		<${OrgScore2_1_1}/>
-		<key>OrgScore2_1_3</key>
-		<${OrgScore2_1_3}/>
+		<key>OrgScore2_1_2</key>
+		<${OrgScore2_1_2/>
 		<key>OrgScore2_2_1</key>
 		<${OrgScore2_2_1}/>
 		<key>OrgScore2_2_2</key>
