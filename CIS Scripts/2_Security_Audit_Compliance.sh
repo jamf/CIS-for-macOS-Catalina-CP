@@ -469,7 +469,7 @@ fi
 Audit2_4_10="$($Defaults read "$plistlocation" OrgScore2_4_10)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit2_4_10" = "1" ]; then
-	contentCacheStatus="$(/usr/bin/AssetCacheManagerUtil status 2>&1 | grep -c "Activated = 0;")"
+	contentCacheStatus="$(/usr/bin/AssetCacheManagerUtil status 2>&1 | grep -c "Activated: false")"
 	# If client fails, then note category in audit file
 	if [ "$contentCacheStatus" == 1 ]; then
  		echo "$(date -u)" "2.4.10 passed" | tee -a "$logFile"
