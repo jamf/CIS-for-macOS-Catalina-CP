@@ -397,14 +397,14 @@ if [ "$Audit2_4_11" = "1" ]; then
 	echo "$(date -u)" "2.4.11 remediated - requires restart" | tee -a "$logFile"
 fi
 
-# 2.5.2 Enable Gatekeeper 
+# 2.5.2.1 Enable Gatekeeper 
 # Verify organizational score
-Audit2_5_2="$(defaults read "$plistlocation" OrgScore2_5_2)"
+Audit2_5_2_1="$(defaults read "$plistlocation" OrgScore2_5_2_1)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_2" = "1" ]; then
+if [ "$Audit2_5_2_1" = "1" ]; then
 	spctl --master-enable
-	echo "$(date -u)" "2.5.2 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.2.1 remediated" | tee -a "$logFile"
 fi
 
 # 2.5.3 Enable Firewall 

@@ -567,23 +567,23 @@ if [ "$Audit2_5_1_3" = "1" ]; then
 fi
 	
 
-# 2.5.2 Enable Gatekeeper 
+# 2.5.2.1 Enable Gatekeeper 
 # Configuration Profile - Security and Privacy payload > General > Gatekeeper > Mac App Store and identified developers (selected)
 # Verify organizational score
-Audit2_5_2="$($Defaults read "$plistlocation" OrgScore2_5_2)"
+Audit2_5_2.1="$($Defaults read "$plistlocation" OrgScore2_5_2_1)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit2_5_2" = "1" ]; then
+if [ "$Audit2_5_2_1" = "1" ]; then
 	CP_gatekeeperEnabled="$(/usr/sbin/system_profiler SPConfigurationProfileDataType | /usr/bin/grep -c 'EnableAssessment = 1')"
 	# If client fails, then note category in audit file
 	if [[ "$CP_gatekeeperEnabled" -gt "0" ]] ; then
-		echo "$(date -u)" "2.5.2 passed cp" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_5_2 -bool false; else
+		echo "$(date -u)" "2.5.2.1 passed cp" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_5_2_1 -bool false; else
 		gatekeeperEnabled="$(spctl --status | grep -c "assessments enabled")"
 		if [ "$gatekeeperEnabled" = "1" ]; then
-			echo "$(date -u)" "2.5.2 passed" | tee -a "$logFile"
-			$Defaults write "$plistlocation" OrgScore2_5_2 -bool false; else
-			echo "* 2.5.2 Enable Gatekeeper" >> "$auditfilelocation"
-			echo "$(date -u)" "2.5.2 fix" | tee -a "$logFile"
+			echo "$(date -u)" "2.5.2.1 passed" | tee -a "$logFile"
+			$Defaults write "$plistlocation" OrgScore2_5_2_1 -bool false; else
+			echo "* 2.5.2.1 Enable Gatekeeper" >> "$auditfilelocation"
+			echo "$(date -u)" "2.5.2.1 fix" | tee -a "$logFile"
 		fi
 	fi
 fi

@@ -184,10 +184,10 @@ OrgScore2_5_1_2="true"
 OrgScore2_5_1_3="true"
 # OrgScore2_5_1_3="false"
 
-# 2.5.2 Enable Gatekeeper
+# 2.5.2.1 Enable Gatekeeper
 # Configuration Profile - Security and Privacy payload > General > Gatekeeper > Mac App Store and identified developers (selected)
-OrgScore2_5_2="true"
-# OrgScore2_5_2="false"
+OrgScore2_5_2_1="true"
+# OrgScore2_5_2_1="false"
 
 # 2.5.3 Enable Firewall 
 # Configuration Profile - Security and Privacy payload > Firewall > Enable Firewall (checked)
@@ -513,8 +513,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_5_1_2}/>
 		<key>OrgScore2_5_1_3</key>
 		<${OrgScore2_5_1_3}/>
-		<key>OrgScore2_5_2</key>
-		<${OrgScore2_5_2}/>
+		<key>OrgScore2_5_2_1</key>
+		<${OrgScore2_5_2_1}/>
 		<key>OrgScore2_5_3</key>
 		<${OrgScore2_5_3}/>
 		<key>OrgScore2_5_4</key>
