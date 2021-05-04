@@ -418,14 +418,14 @@ if [ "$Audit2_5_2_2" = "1" ]; then
 	echo "$(date -u)" "2.5.2.2 remediated" | tee -a "$logFile"
 fi
 
-# 2.5.4 Enable Firewall Stealth Mode 
+# 2.5.2.3 Enable Firewall Stealth Mode 
 # Verify organizational score
-Audit2_5_4="$(defaults read "$plistlocation" OrgScore2_5_4)"
+Audit2_5_2_3="$(defaults read "$plistlocation" OrgScore2_5_2_3)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_4" = "1" ]; then
+if [ "$Audit2_5_2_3" = "1" ]; then
 	/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-	echo "$(date -u)" "2.5.4 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.2.3 remediated" | tee -a "$logFile"
 fi
 
 # 2.5.5 Review Application Firewall Rules

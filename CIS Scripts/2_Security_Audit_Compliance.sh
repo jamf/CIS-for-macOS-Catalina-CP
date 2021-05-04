@@ -609,23 +609,23 @@ if [ "$Audit2_5_2_2" = "1" ]; then
 	fi
 fi
 
-# 2.5.4 Enable Firewall Stealth Mode 
+# 2.5.2.3 Enable Firewall Stealth Mode 
 # Configuration Profile - Security and Privacy payload > Firewall > Enable stealth mode (checked)
 # Verify organizational score
-Audit2_5_4="$($Defaults read "$plistlocation" OrgScore2_5_4)"
+Audit2_5_2_3="$($Defaults read "$plistlocation" OrgScore2_5_2_3)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit2_5_4" = "1" ]; then
+if [ "$Audit2_5_2_3" = "1" ]; then
 	CP_stealthEnabled="$(/usr/sbin/system_profiler SPConfigurationProfileDataType | /usr/bin/grep -c 'EnableStealthMode = 1')"
 	# If client fails, then note category in audit file
 	if [[ "$CP_stealthEnabled" -gt "0" ]] ; then
-		echo "$(date -u)" "2.5.4 passed cp" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_5_4 -bool false; else
+		echo "$(date -u)" "2.5.2.3 passed cp" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_5_2_3 -bool false; else
 		stealthEnabled="$(/usr/libexec/ApplicationFirewall/socketfilterfw --getstealthmode | awk '{print $3}')"
 		if [ "$stealthEnabled" = "enabled" ]; then
-			echo "$(date -u)" "2.5.4 passed" | tee -a "$logFile"
-			$Defaults write "$plistlocation" OrgScore2_5_4 -bool false; else
-			echo "* 2.5.4 Enable Firewall Stealth Mode" >> "$auditfilelocation"
-			echo "$(date -u)" "2.5.4 fix" | tee -a "$logFile"
+			echo "$(date -u)" "2.5.2.3 passed" | tee -a "$logFile"
+			$Defaults write "$plistlocation" OrgScore2_5_2_3 -bool false; else
+			echo "* 2.5.2.3 Enable Firewall Stealth Mode" >> "$auditfilelocation"
+			echo "$(date -u)" "2.5.2.3 fix" | tee -a "$logFile"
 		fi
 	fi
 fi

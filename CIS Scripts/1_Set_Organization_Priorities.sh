@@ -194,10 +194,10 @@ OrgScore2_5_2_1="true"
 OrgScore2_5_2_2="true"
 # OrgScore2_5_2_2="false"
 
-# 2.5.4 Enable Firewall Stealth Mode 
+# 2.5.2.3 Enable Firewall Stealth Mode 
 # Configuration Profile - Security and Privacy payload > Firewall > Enable stealth mode (checked)
-OrgScore2_5_4="true"
-# OrgScore2_5_4="false"
+OrgScore2_5_2_3="true"
+# OrgScore2_5_2_3="false"
 
 # 2.5.5 Review Application Firewall Rules 
 # Configuration Profile - Security and Privacy payload > Firewall > Control incoming connections for specific apps (selected)
@@ -517,8 +517,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_5_2_1}/>
 		<key>OrgScore2_5_2_2</key>
 		<${OrgScore2_5_2_2}/>
-		<key>OrgScore2_5_4</key>
-		<${OrgScore2_5_4}/>
+		<key>OrgScore2_5_2_3</key>
+		<${OrgScore2_5_2_3}/>
 		<key>OrgScore2_5_5</key>
 		<${OrgScore2_5_5}/>
 		<key>OrgScore2_5_8</key>
