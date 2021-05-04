@@ -207,9 +207,9 @@ OrgScore2_5_2_3="true"
 ## As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
 ## It is considered user opt in.
 
-# 2.5.8 Disable sending diagnostic and usage data to Apple
-OrgScore2_5_8="true"
-# OrgScore2_5_8="false"
+# 2.5.5 Disable sending diagnostic and usage data to Apple
+OrgScore2_5_5="true"
+# OrgScore2_5_5="false"
 
 # 2.5.9 Review Advertising Settings (Not Scored)
 OrgScore2_5_9="true"
@@ -514,8 +514,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_5_2_2}/>
 		<key>OrgScore2_5_2_3</key>
 		<${OrgScore2_5_2_3}/>
-		<key>OrgScore2_5_8</key>
-		<${OrgScore2_5_8}/>
+		<key>OrgScore2_5_5</key>
+		<${OrgScore2_5_5}/>
 		<key>OrgScore2_5_9</key>
 		<${OrgScore2_5_9}/>
 		<key>OrgScore2_6_1</key>

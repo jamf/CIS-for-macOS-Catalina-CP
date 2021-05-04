@@ -430,16 +430,16 @@ fi
 
 # 2.5.6 Enable Location Services
 
-# 2.5.8 Disable sending diagnostic and usage data to Apple
+# 2.5.5 Disable sending diagnostic and usage data to Apple
 # Verify Organizational score
-Audit2_5_8="$(defaults read "$plistlocation" OrgScore2_5_8)"
+Audit2_5_5="$(defaults read "$plistlocation" OrgScore2_5_5)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_8" = "1" ]; then
+if [ "$Audit2_5_5" = "1" ]; then
 	AppleDiagn=$(defaults read /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit)
 	if [ $AppleDiagn == 1 ]; then 
 		defaults write /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit -int 0
-		echo "$(date -u)" "2.5.8 remediated" | tee -a "$logFile"
+		echo "$(date -u)" "2.5.5 remediated" | tee -a "$logFile"
 	fi
 fi
 

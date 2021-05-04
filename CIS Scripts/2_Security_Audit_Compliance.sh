@@ -630,22 +630,22 @@ if [ "$Audit2_5_2_3" = "1" ]; then
 	fi
 fi
 
-# 2.5.8 Disable sending diagnostic and usage data to Apple
+# 2.5.5 Disable sending diagnostic and usage data to Apple
 # Verify organizational score
-Audit2_5_8="$($Defaults read "$plistlocation" OrgScore2_5_8)"
+Audit2_5_5="$($Defaults read "$plistlocation" OrgScore2_5_5)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit2_5_8" = "1" ]; then
+if [ "$Audit2_5_5" = "1" ]; then
 CP_disableDiagnostic="$(/usr/sbin/system_profiler SPConfigurationProfileDataType | /usr/bin/grep -c 'allowDiagnosticSubmission = 0')"
 	# If client fails, then note category in audit file
 	if [[ "$CP_disableDiagnostic" -gt "0" ]] ; then
-		echo "$(date -u)" "2.5.8 passed cp" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_5_8 -bool false; else
+		echo "$(date -u)" "2.5.5 passed cp" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_5_5 -bool false; else
 	AppleDiagn=$($Defaults read /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit)
 	if [ "$AppleDiagn" == 1 ]; then 
-		/bin/echo "* 2.5.8 Disable sending diagnostic and usage data to Apple" >> "$auditfilelocation"
-		echo "$(date -u)" "2.5.8 fix Disable sending diagnostic and usage data to Apple" | tee -a "$logFile"; else
-		echo "$(date -u)" "2.5.8 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_5_8 -bool false
+		/bin/echo "* 2.5.5 Disable sending diagnostic and usage data to Apple" >> "$auditfilelocation"
+		echo "$(date -u)" "2.5.5 fix Disable sending diagnostic and usage data to Apple" | tee -a "$logFile"; else
+		echo "$(date -u)" "2.5.5 passed" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_5_5 -bool false
 		fi
 	fi
 fi
