@@ -630,22 +630,6 @@ if [ "$Audit2_5_2_3" = "1" ]; then
 	fi
 fi
 
-# 2.5.5 Review Application Firewall Rules
-# Configuration Profile - Security and Privacy payload > Firewall > Control incoming connections for specific apps (selected)
-# Verify organizational score
-Audit2_5_5="$($Defaults read "$plistlocation" OrgScore2_5_5)"
-# If organizational score is 1 or true, check status of client
-if [ "$Audit2_5_5" = "1" ]; then
-	appsInbound="$(/usr/libexec/ApplicationFirewall/socketfilterfw --listapps | grep ALF | awk '{print $7}')" # this shows the true state of the config profile too.
-	# If client fails, then note category in audit file
-	if [[ "$appsInbound" -le "10" ]] || [ -z "$appsInbound" ]; then
-		echo "$(date -u)" "2.5.5 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_5_5 -bool false; else
-		echo "* 2.5.5 Review Application Firewall Rules" >> "$auditfilelocation"
-		echo "$(date -u)" "2.5.5 fix" | tee -a "$logFile"
-	fi
-fi
-
 # 2.5.8 Disable sending diagnostic and usage data to Apple
 # Verify organizational score
 Audit2_5_8="$($Defaults read "$plistlocation" OrgScore2_5_8)"

@@ -428,15 +428,6 @@ if [ "$Audit2_5_2_3" = "1" ]; then
 	echo "$(date -u)" "2.5.2.3 remediated" | tee -a "$logFile"
 fi
 
-# 2.5.5 Review Application Firewall Rules
-# Verify organizational score
-Audit2_5_5="$(defaults read "$plistlocation" OrgScore2_5_5)"
-# If organizational score is 1 or true, check status of client
-# If client fails, then alert to need of remediation
-if [ "$Audit2_5_5" = "1" ]; then
-	echo "$(date -u)" "2.5.5 not remediated" | tee -a "$logFile"
-fi
-
 # 2.5.6 Enable Location Services
 
 # 2.5.8 Disable sending diagnostic and usage data to Apple

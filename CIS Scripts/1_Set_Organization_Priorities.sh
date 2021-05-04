@@ -199,11 +199,6 @@ OrgScore2_5_2_2="true"
 OrgScore2_5_2_3="true"
 # OrgScore2_5_2_3="false"
 
-# 2.5.5 Review Application Firewall Rules 
-# Configuration Profile - Security and Privacy payload > Firewall > Control incoming connections for specific apps (selected)
-OrgScore2_5_5="true"
-# OrgScore2_5_5="false"
-
 ## 2.5.6 Enable Location Services (Not Scored)
 ## As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
 ## It is considered user opt in.
@@ -519,8 +514,6 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_5_2_2}/>
 		<key>OrgScore2_5_2_3</key>
 		<${OrgScore2_5_2_3}/>
-		<key>OrgScore2_5_5</key>
-		<${OrgScore2_5_5}/>
 		<key>OrgScore2_5_8</key>
 		<${OrgScore2_5_8}/>
 		<key>OrgScore2_5_9</key>
