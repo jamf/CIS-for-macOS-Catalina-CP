@@ -150,8 +150,8 @@ OrgScore2_4_6="true"
 # OrgScore2_4_6="false"
 
 # 2.4.7 Disable Bluetooth Sharing 
-OrgScore2_4_7="true"
-# OrgScore2_4_7="false"
+#OrgScore2_4_7="true"
+OrgScore2_4_7="false"
 
 # 2.4.8 Disable File Sharing 
 OrgScore2_4_8="true"
