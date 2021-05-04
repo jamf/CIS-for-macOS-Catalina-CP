@@ -474,7 +474,7 @@ cat << EOF > "$plistlocation"
 		<key>OrgScore2_1_1</key>
 		<${OrgScore2_1_1}/>
 		<key>OrgScore2_1_2</key>
-		<${OrgScore2_1_2/>
+		<${OrgScore2_1_2}/>
 		<key>OrgScore2_2_1</key>
 		<${OrgScore2_2_1}/>
 		<key>OrgScore2_2_2</key>
