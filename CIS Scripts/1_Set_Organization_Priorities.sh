@@ -247,11 +247,6 @@ OrgScore2_7_1="false"
 ## 2.7.2 Time Machine Volumes Are Encrypted (Not Scored)
 ## Time Machine is typically not used as an Enterprise backup solution
 
-# 2.8 Pair the remote control infrared receiver if enabled
-# Since 2013 only the Mac Mini has an infrared receiver
-OrgScore2_8="true"
-# OrgScore2_8="false"
-
 # 2.9 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
 OrgScore2_9="true"

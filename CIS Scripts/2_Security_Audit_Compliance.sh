@@ -762,21 +762,6 @@ if [ "$Audit2_7_1" = "1" ]; then
 	fi
 fi
 
-# 2.8 Pair the remote control infrared receiver if enabled
-# Verify organizational score
-Audit2_8="$($Defaults read "$plistlocation" OrgScore2_8)"
-# If organizational score is 1 or true, check status of client
-if [ "$Audit2_8" = "1" ]; then
-	IRPortDetect="$(system_profiler SPUSBDataType | egrep "IR Receiver" -c)"
-	# If client fails, then note category in audit file
-	if [ "$IRPortDetect" = "0" ]; then
-		echo "$(date -u)" "2.8 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_8 -bool false; else
-		echo "* 2.8 Pair the remote control infrared receiver if enabled" >> "$auditfilelocation"
-		echo "$(date -u)" "2.8 fix" | tee -a "$logFile"
-	fi
-fi
-
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
 # Verify organizational score

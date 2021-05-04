@@ -465,16 +465,6 @@ if [ "$Audit2_7_1" = "1" ]; then
 	echo "$(date -u)" "2.7.1 remediated" | tee -a "$logFile"
 fi
 
-# 2.8 Pair the remote control infrared receiver if enabled
-# Verify organizational score
-Audit2_8="$(defaults read "$plistlocation" OrgScore2_8)"
-# If organizational score is 1 or true, check status of client
-# If client fails, then remediate
-if [ "$Audit2_8" = "1" ]; then
-	defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -bool false
-	echo "$(date -u)" "2.8 remediated" | tee -a "$logFile"
-fi
-
 # 2.9 Enable Secure Keyboard Entry in terminal.app 
 # Verify organizational score
 Audit2_9="$(defaults read "$plistlocation" OrgScore2_9)"
