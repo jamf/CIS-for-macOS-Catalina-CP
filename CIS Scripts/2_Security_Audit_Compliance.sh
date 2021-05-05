@@ -964,7 +964,8 @@ Audit4_4="$($Defaults read "$plistlocation" OrgScore4_4)"
 # If organizational score is 1 or true, check status of client
 # Code fragment from https://github.com/krispayne/CIS-Settings/blob/master/ElCapitan_CIS.sh
 if [ "$Audit4_4" = "1" ]; then
-	if /bin/launchctl list | egrep httpd > /dev/null; then
+	httpdDisabled="$(launchctl print-disabled system | /usr/bin/grep -c '"org.apache.httpd" => true')"
+	if [ "$httpdDisabled" = 0 ] then
 		echo "* 4.4 Ensure http server is not running" >> "$auditfilelocation"
 		echo "$(date -u)" "4.4 fix" | tee -a "$logFile"; else
 		echo "$(date -u)" "4.4 passed" | tee -a "$logFile"
