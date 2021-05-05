@@ -948,9 +948,9 @@ fi
 Audit4_2="$($Defaults read "$plistlocation" OrgScore4_2)"
 # If organizational score is 1 or true, check status of client
 if [ "$Audit4_2" = "1" ]; then
-	wifiMenuBar="$($Defaults read /Users/"$currentUser"/Library/Preferences/com.apple.systemuiserver menuExtras | grep -c AirPort.menu)"
+	wifiMenuBar="$($Defaults -currentHost read com.apple.controlcenter.plist WiFi)"
 	# If client fails, then note category in audit file
-	if [ "$wifiMenuBar" = "0" ]; then
+	if [ "$wifiMenuBar" -ne "18" ]; then
 		echo "* 4.2 Enable Show Wi-Fi status in menu bar" >> "$auditfilelocation"
 		echo "$(date -u)" "4.2 fix" | tee -a "$logFile"; else
 		echo "$(date -u)" "4.2 passed" | tee -a "$logFile"
