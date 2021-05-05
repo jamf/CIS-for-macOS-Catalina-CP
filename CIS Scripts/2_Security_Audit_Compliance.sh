@@ -200,7 +200,7 @@ if [ "$Audit2_1_1" = "1" ]; then
 	if [ "$btPowerState" = "0" ]; then
 		echo "$(date -u)" "2.1.1 passed" | tee -a "$logFile"
 		$Defaults write "$plistlocation" OrgScore2_1_1 -bool false; else
-		connectable="$(system_profiler SPBluetoothDataType | grep Connectable | awk '{print $2}' | head -1)"
+		connectable="$(system_profiler SPBluetoothDataType 2>&1| grep Connectable | awk '{print $2}' | head -1)"
 		if [[ "$connectable" != "Yes" ]]; then
 			echo "$(date -u)" "2.1.1 passed" | tee -a "$logFile"
 			$Defaults write "$plistlocation" OrgScore2_1_1 -bool false; else
