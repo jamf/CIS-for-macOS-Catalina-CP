@@ -443,16 +443,16 @@ if [ "$Audit2_5_5" = "1" ]; then
 	fi
 fi
 
-# 2.5.9 Force Limited Ad Tracking
+# 2.5.6 Limit Ad tracking and personalized Ads
 # Verify Organizational score
-Audit2_5_9="$(defaults read "$plistlocation" OrgScore2_5_9)"
+Audit2_5_6="$(defaults read "$plistlocation" OrgScore2_5_6)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_9" = "1" ]; then
+if [ "$Audit2_5_6" = "1" ]; then
 	defaults write /Users/"${currentUser}"/Library/Preferences/com.apple.AdLib.plist forceLimitAdTracking -bool true
 	chown "${currentUser}":staff /Users/"${currentUser}"/Library/Preferences/com.apple.AdLib.plist
-	echo "$(date -u)" "2.5.9 consider using a configuration profile" | tee -a "$logFile"
-	echo "$(date -u)" "2.5.9 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.6 consider using a configuration profile" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.6 remediated" | tee -a "$logFile"
 fi
 
 # 2.7.1 Time Machine Auto-Backup

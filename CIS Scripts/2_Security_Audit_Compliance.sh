@@ -650,17 +650,17 @@ CP_disableDiagnostic="$(/usr/sbin/system_profiler SPConfigurationProfileDataType
 	fi
 fi
 
-# 2.5.9 Force Limited Ad Tracking
+# 2.5.6 Limit Ad tracking and personalized Ads
 # Verify organizational score
-Audit2_5_9="$($Defaults read "$plistlocation" OrgScore2_5_9)"
+Audit2_5_6="$($Defaults read "$plistlocation" OrgScore2_5_6)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit2_5_9" = "1" ]; then
-	if [ "$($Defaults read /Users/"$currentUser"/Library/Preferences/com.apple.AdLib.plist forceLimitAdTracking)" = "1" ]; then
-		echo "$(date -u)" "2.5.9 passed" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_5_9 -bool false
+if [ "$Audit2_5_6" = "1" ]; then
+	if [ "$($Defaults read /Users/"$currentUser"/Library/Preferences/com.apple.AdLib.plist allowApplePersonalizedAdvertising)" = "0" ]; then
+		echo "$(date -u)" "2.5.6 passed" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_5_6 -bool false
 	else
-		echo "* 2.5.9 Review Force Limited Ad Tracking" >> "$auditfilelocation"
-		echo "$(date -u)" "2.5.9 fix" | tee -a "$logFile"
+		echo "* 2.5.6 Review Limit Ad tracking and personalized Ads" >> "$auditfilelocation"
+		echo "$(date -u)" "2.5.6 fix" | tee -a "$logFile"
 	fi
 fi
 

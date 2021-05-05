@@ -199,10 +199,6 @@ OrgScore2_5_2_2="true"
 OrgScore2_5_2_3="true"
 # OrgScore2_5_2_3="false"
 
-## 2.5.6 Enable Location Services (Not Scored)
-## As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
-## It is considered user opt in.
-
 ## 2.5.7 Monitor Location Services Access (Not Scored)
 ## As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
 ## It is considered user opt in.
@@ -211,9 +207,9 @@ OrgScore2_5_2_3="true"
 OrgScore2_5_5="true"
 # OrgScore2_5_5="false"
 
-# 2.5.9 Review Advertising Settings (Not Scored)
-OrgScore2_5_9="true"
-# OrgScore2_5_9="false"
+# 2.5.6 Limit Ad tracking and personalized Ads 
+OrgScore2_5_6="true"
+# OrgScore2_5_6="false"
 
 # 2.6.1 iCloud configuration (Check for iCloud accounts) (Not Scored)
 OrgScore2_6_1="true"
@@ -510,8 +506,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_5_2_3}/>
 		<key>OrgScore2_5_5</key>
 		<${OrgScore2_5_5}/>
-		<key>OrgScore2_5_9</key>
-		<${OrgScore2_5_9}/>
+		<key>OrgScore2_5_6</key>
+		<${OrgScore2_5_6}/>
 		<key>OrgScore2_6_1</key>
 		<${OrgScore2_6_1}/>
 		<key>OrgScore2_6_2</key>
