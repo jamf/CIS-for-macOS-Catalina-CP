@@ -1325,6 +1325,21 @@ if [ "$Audit5_19" = "1" ]; then
 	fi
 fi
 
+# 5.20 Enable Library Validation 
+# Verify organizational score
+Audit5_19="$($Defaults read "$plistlocation" OrgScore5_20)"
+# If organizational score is 1 or true, check status of client
+if [ "$Audit5_20" = "1" ]; then
+	libValidationDisabled="$($Defaults read /Library/Preferences/com.apple.security.librarayvalidation.plist DisableLibraryValidation)"
+	# If client fails, then note category in audit file
+	if [ "$libValidationDisabled" = 0 ]; then
+		echo "$(date -u)" "5.20 passed" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore5_20 -bool false; else
+		echo "* 5.20 Library Validation - not enabled" >> "$auditfilelocation"
+		echo "$(date -u)" "5.20 fix" | tee -a "$logFile"
+	fi
+fi
+
 # 6.1.1 Display login window as name and password
 # Configuration Profile - LoginWindow payload > Window > LOGIN PROMPT > Name and password text fields (selected)
 # Verify organizational score

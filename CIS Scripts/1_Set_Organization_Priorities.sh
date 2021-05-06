@@ -406,6 +406,10 @@ OrgScore5_18="true"
 OrgScore5_19="true"
 # OrgScore5_19="false"
 
+# 5.20 Enable Library Validation 
+OrgScore5_20="true"
+# OrgScore5_20="false"
+
 # 6.1.1 Display login window as name and password 
 # Configuration Profile - LoginWindow payload > Window > LOGIN PROMPT > Name and password text fields (selected)
 OrgScore6_1_1="true"
@@ -593,6 +597,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore5_18}/>
 		<key>OrgScore5_19</key>
 		<${OrgScore5_19}/>
+		<key>OrgScore5_20</key>
+		<${OrgScore5_20}/>
 		<key>OrgScore6_1_1</key>
 		<${OrgScore6_1_1}/>
 		<key>OrgScore6_1_2</key>

@@ -845,6 +845,15 @@ if [ "$Audit5_19" = "1" ]; then
 	#echo "$(date -u)" "5.19 remediated" | tee -a "$logFile"
 fi
 
+# 5.20 Enable Library Validation 
+# Verify organizational score
+Audit5_20="$(defaults read "$plistlocation" OrgScore5_20)"
+# If organizational score is 1 or true, check status of client
+if [ "$Audit5_20" = "1" ]; then
+	defaults write /Library/Preferences/com.apple.security.librarayvalidation.plist DisableLibraryValidation -bool false
+	echo "$(date -u)" "5.20 remediated" | tee -a "$logFile"
+fi
+
 # 6.1.1 Display login window as name and password
 # Verify organizational score
 Audit6_1_1="$(defaults read "$plistlocation" OrgScore6_1_1)"
