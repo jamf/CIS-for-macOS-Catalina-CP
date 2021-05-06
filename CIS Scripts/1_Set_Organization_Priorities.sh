@@ -243,6 +243,10 @@ OrgScore2_7_1="false"
 ## 2.7.2 Time Machine Volumes Are Encrypted (Not Scored)
 ## Time Machine is typically not used as an Enterprise backup solution
 
+# 2.8 Disable "Wake for network access"
+OrgScore2_8="true"
+# OrgScore2_8="false"
+
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
 OrgScore2_10="true"
@@ -257,9 +261,6 @@ OrgScore2_10="true"
 OrgScore2_11="true"
 # OrgScore2_11="false"
 
-# 2.12 Disable "Wake for network access" and "Power Nap"
-OrgScore2_12="true"
-# OrgScore2_12="false"
 
 # 3.1 Enable security Auditing
 OrgScore3_1="true"
@@ -526,8 +527,6 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_9}/>
 		<key>OrgScore2_11</key>
 		<${OrgScore2_11}/>
-		<key>OrgScore2_12</key>
-		<${OrgScore2_12}/>
 		<key>OrgScore3_1</key>
 		<${OrgScore3_1}/>
 		<key>OrgScore3_2</key>

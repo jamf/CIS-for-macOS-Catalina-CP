@@ -762,6 +762,26 @@ if [ "$Audit2_7_1" = "1" ]; then
 	fi
 fi
 
+# 2.8 Disable "Wake for network access"
+# Verify organizational score
+Audit2_8="$($Defaults read "$plistlocation" OrgScore2_8)"
+# If organizational score is 1 or true, check status of client
+if [ "$Audit2_8" = "1" ]; then
+	CP_wompEnabled="$(/usr/sbin/system_profiler SPConfigurationProfileDataType | /usr/bin/grep -c '"Wake On LAN" = 0')"
+		# If client fails, then note category in audit file
+		if [[ "$CP_wompEnabled" = "3" ]] ; then
+			echo "$(date -u)" "2.8 passed" | tee -a "$logFile"
+			$Defaults write "$plistlocation" OrgScore2_8 -bool false; else
+			wompEnabled="$(pmset -g | grep womp | awk '{print $2}')"
+			if [ "$wompEnabled" = "0" ]; then
+				echo "$(date -u)" "2.8 passed" | tee -a "$logFile"
+				$Defaults write "$plistlocation" OrgScore2_8 -bool false; else
+				echo "* 2.8 Disable Wake for network access" >> "$auditfilelocation"
+				echo "$(date -u)" "2.8 fix" | tee -a "$logFile"
+			fi
+		fi
+fi
+
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
 # Verify organizational score
@@ -807,25 +827,6 @@ fi
 fi
 
 
-# 2.12 Disable "Wake for network access" and "Power Nap"
-# Verify organizational score
-Audit2_12="$($Defaults read "$plistlocation" OrgScore2_12)"
-# If organizational score is 1 or true, check status of client
-if [ "$Audit2_12" = "1" ]; then
-	CP_wompEnabled="$(/usr/sbin/system_profiler SPConfigurationProfileDataType | /usr/bin/grep -c '"Wake On LAN" = 0')"
-		# If client fails, then note category in audit file
-		if [[ "$CP_wompEnabled" = "3" ]] ; then
-			echo "$(date -u)" "2.12 passed" | tee -a "$logFile"
-			$Defaults write "$plistlocation" OrgScore2_12 -bool false; else
-			wompEnabled="$(pmset -g | grep womp | awk '{print $2}')"
-			if [ "$wompEnabled" = "0" ]; then
-				echo "$(date -u)" "2.12 passed" | tee -a "$logFile"
-				$Defaults write "$plistlocation" OrgScore2_12 -bool false; else
-				echo "* 2.12 Disable Wake for network access" >> "$auditfilelocation"
-				echo "$(date -u)" "2.12 fix" | tee -a "$logFile"
-			fi
-		fi
-fi
 
 # 3.1 Enable security auditing
 # Verify organizational score

@@ -465,6 +465,17 @@ if [ "$Audit2_7_1" = "1" ]; then
 	echo "$(date -u)" "2.7.1 remediated" | tee -a "$logFile"
 fi
 
+# 2.8 Disable "Wake for network access"
+# Verify organizational score
+Audit2_8="$(defaults read "$plistlocation" OrgScore2_8)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit2_8" = "1" ]; then
+	pmset -a womp 0
+	pmset -a powernap 0
+	echo "$(date -u)" "2.8 remediated" | tee -a "$logFile"
+fi
+
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Verify organizational score
 Audit2_10="$(defaults read "$plistlocation" OrgScore2_10)"
@@ -475,16 +486,6 @@ if [ "$Audit2_10" = "1" ]; then
 	echo "$(date -u)" "2.10 remediated" | tee -a "$logFile"
 fi
 
-# 2.12 Disable "Wake for network access"
-# Verify organizational score
-Audit2_12="$(defaults read "$plistlocation" OrgScore2_12)"
-# If organizational score is 1 or true, check status of client
-# If client fails, then remediate
-if [ "$Audit2_12" = "1" ]; then
-	pmset -a womp 0
-	pmset -a powernap 0
-	echo "$(date -u)" "2.12 remediated" | tee -a "$logFile"
-fi
 
 # 3.1 Enable security auditing
 # Verify organizational score
