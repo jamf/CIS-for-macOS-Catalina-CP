@@ -476,6 +476,16 @@ if [ "$Audit2_8" = "1" ]; then
 	echo "$(date -u)" "2.8 remediated" | tee -a "$logFile"
 fi
 
+# 2.9 Disable Power Nap
+# Verify organizational score
+Audit2_9="$(defaults read "$plistlocation" OrgScore2_9)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit2_9" = "1" ]; then
+	pmset -a powernap 0
+	echo "$(date -u)" "2.9 remediated" | tee -a "$logFile"
+fi
+
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Verify organizational score
 Audit2_10="$(defaults read "$plistlocation" OrgScore2_10)"

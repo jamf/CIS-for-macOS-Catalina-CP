@@ -782,6 +782,20 @@ if [ "$Audit2_8" = "1" ]; then
 		fi
 fi
 
+# 2.9 Disable Power Nap
+# Verify organizational score
+Audit2_9="$($Defaults read "$plistlocation" OrgScore2_9)"
+# If organizational score is 1 or true, check status of client
+if [ "$Audit2_9" = "1" ]; then
+	napEnabled="$(pmset -g everything | grep -c 'powernap             1')"
+	if [ "$napEnabled" = 0 ]; then
+		echo "$(date -u)" "2.9 passed" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_9 -bool false; else
+		echo "* 2.9 Disable Power Nap" >> "$auditfilelocation"
+		echo "$(date -u)" "2.9 fix" | tee -a "$logFile"
+	fi
+fi
+
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
 # Verify organizational score

@@ -247,6 +247,10 @@ OrgScore2_7_1="false"
 OrgScore2_8="true"
 # OrgScore2_8="false"
 
+# 2.9 Disable Power Nap
+OrgScore2_9="true"
+# OrgScore2_9="false"
+
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
 OrgScore2_10="true"
