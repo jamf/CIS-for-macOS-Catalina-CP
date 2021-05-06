@@ -428,7 +428,14 @@ if [ "$Audit2_5_2_3" = "1" ]; then
 	echo "$(date -u)" "2.5.2.3 remediated" | tee -a "$logFile"
 fi
 
-# 2.5.6 Enable Location Services
+# 2.5.3 Enable Location Services
+# Verify organizational score
+Audit2_5_3="$(defaults read "$plistlocation" OrgScore2_5_3)"
+# If organizational score is 1 or true, check status of client
+if [ "$Audit2_5_3" = "1" ]; then
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.locationd.plist
+	echo "$(date -u)" "2.5.3 remediated" | tee -a "$logFile"
+fi
 
 # 2.5.5 Disable sending diagnostic and usage data to Apple
 # Verify Organizational score

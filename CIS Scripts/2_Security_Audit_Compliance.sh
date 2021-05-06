@@ -630,6 +630,22 @@ if [ "$Audit2_5_2_3" = "1" ]; then
 	fi
 fi
 
+# 2.5.3 Enable Location Services
+# Verify organizational score
+Audit2_5_3="$($Defaults read "$plistlocation" OrgScore2_5_3)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit2_5_3" = "1" ]; then
+       auditdEnabled=$(launchctl print-disabled system | grep -c '"com.apple.locationd" => true')
+       if [ "$auditdEnabled" = "0" ]; then
+           echo "$(date -u)" "2.5.3 passed" | tee -a "$logFile"
+           $Defaults write "$plistlocation" OrgScore2_5_3 -bool false
+       else
+           echo "* 2.5.3 Enable Location Services" >> "$auditfilelocation"
+           echo "$(date -u)" "2.5.3 fix" | tee -a "$logFile"
+       fi
+fi
+
 # 2.5.5 Disable sending diagnostic and usage data to Apple
 # Verify organizational score
 Audit2_5_5="$($Defaults read "$plistlocation" OrgScore2_5_5)"
