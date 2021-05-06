@@ -243,10 +243,10 @@ OrgScore2_7_1="false"
 ## 2.7.2 Time Machine Volumes Are Encrypted (Not Scored)
 ## Time Machine is typically not used as an Enterprise backup solution
 
-# 2.9 Enable Secure Keyboard Entry in terminal.app 
+# 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
-OrgScore2_9="true"
-# OrgScore2_9="false"
+OrgScore2_10="true"
+# OrgScore2_10="false"
 
 ## 2.10 Securely delete files as needed (Not Scored)
 ## With the wider use of FileVault and other encryption methods and the growing use of Solid State Drives

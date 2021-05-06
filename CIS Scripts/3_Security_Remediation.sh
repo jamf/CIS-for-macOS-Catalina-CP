@@ -465,14 +465,14 @@ if [ "$Audit2_7_1" = "1" ]; then
 	echo "$(date -u)" "2.7.1 remediated" | tee -a "$logFile"
 fi
 
-# 2.9 Enable Secure Keyboard Entry in terminal.app 
+# 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Verify organizational score
-Audit2_9="$(defaults read "$plistlocation" OrgScore2_9)"
+Audit2_10="$(defaults read "$plistlocation" OrgScore2_10)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_9" = "1" ]; then
+if [ "$Audit2_10" = "1" ]; then
 	defaults write /Users/"$currentUser"/Library/Preferences/com.apple.Terminal SecureKeyboardEntry -bool true
-	echo "$(date -u)" "2.9 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.10 remediated" | tee -a "$logFile"
 fi
 
 # 2.12 Disable "Wake for network access"
