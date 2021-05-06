@@ -1310,6 +1310,21 @@ if [ "$Audit5_18" = "1" ]; then
 	fi
 fi
 
+# 5.19 Enable Sealed System Volume (SSV) 
+# Verify organizational score
+Audit5_19="$($Defaults read "$plistlocation" OrgScore5_19)"
+# If organizational score is 1 or true, check status of client
+if [ "$Audit5_19" = "1" ]; then
+	ssvEnabled="$(/usr/bin/csrutil authenticated-root status | awk '{print $4}')"
+	# If client fails, then note category in audit file
+	if [ "$ssvEnabled" = "enabled" ]; then
+		echo "$(date -u)" "5.19 passed" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore5_19 -bool false; else
+		echo "* 5.19 Enable Sealed System Volume (SSV) - not enabled" >> "$auditfilelocation"
+		echo "$(date -u)" "5.19 fix" | tee -a "$logFile"
+	fi
+fi
+
 # 6.1.1 Display login window as name and password
 # Configuration Profile - LoginWindow payload > Window > LOGIN PROMPT > Name and password text fields (selected)
 # Verify organizational score

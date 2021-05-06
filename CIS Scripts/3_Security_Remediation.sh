@@ -834,6 +834,17 @@ if [ "$Audit5_18" = "1" ]; then
 	#echo "$(date -u)" "5.18 remediated" | tee -a "$logFile"
 fi
 
+# 5.19 Enable Sealed System Volume (SSV)
+# Verify organizational score
+Audit5_19="$(defaults read "$plistlocation" OrgScore5_19)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit5_19" = "1" ]; then
+	echo "This tool needs to be executed from the Recovery OS."
+	#/usr/bin/csrutil authenticated-root enable
+	#echo "$(date -u)" "5.19 remediated" | tee -a "$logFile"
+fi
+
 # 6.1.1 Display login window as name and password
 # Verify organizational score
 Audit6_1_1="$(defaults read "$plistlocation" OrgScore6_1_1)"
