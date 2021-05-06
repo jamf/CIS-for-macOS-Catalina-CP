@@ -785,20 +785,20 @@ fi
 # 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
 # Verify organizational score
-Audit2_9="$($Defaults read "$plistlocation" OrgScore2_9)"
+Audit2_9="$($Defaults read "$plistlocation" OrgScore2_10)"
 # If organizational score is 1 or true, check status of client
-if [ "$Audit2_9" = "1" ]; then
+if [ "$Audit2_10" = "1" ]; then
 	CP_secureKeyboard="$(/usr/sbin/system_profiler SPConfigurationProfileDataType | /usr/bin/grep -c 'SecureKeyboardEntry = 1')"
 	# If client fails, then note category in audit file
 	if [[ "$CP_secureKeyboard" -gt "0" ]] ; then
-		echo "$(date -u)" "2.9 passed cp" | tee -a "$logFile"
-		$Defaults write "$plistlocation" OrgScore2_9 -bool false; else
+		echo "$(date -u)" "2.10 passed cp" | tee -a "$logFile"
+		$Defaults write "$plistlocation" OrgScore2_10 -bool false; else
 		secureKeyboard="$($Defaults read /Users/"$currentUser"/Library/Preferences/com.apple.Terminal SecureKeyboardEntry)"
 		if [ "$secureKeyboard" = "1" ]; then
-			echo "$(date -u)" "2.9 passed" | tee -a "$logFile"
-			$Defaults write "$plistlocation" OrgScore2_9 -bool false; else
-			echo "* 2.9 Enable Secure Keyboard Entry in terminal.app" >> "$auditfilelocation"
-			echo "$(date -u)" "2.9 fix" | tee -a "$logFile"
+			echo "$(date -u)" "2.10 passed" | tee -a "$logFile"
+			$Defaults write "$plistlocation" OrgScore2_10 -bool false; else
+			echo "* 2.10 Enable Secure Keyboard Entry in terminal.app" >> "$auditfilelocation"
+			echo "$(date -u)" "2.10 fix" | tee -a "$logFile"
 		fi
 	fi
 fi
