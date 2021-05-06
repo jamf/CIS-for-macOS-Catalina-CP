@@ -500,6 +500,10 @@ Audit2_10="$(defaults read "$plistlocation" OrgScore2_10)"
 # If client fails, then remediate
 if [ "$Audit2_10" = "1" ]; then
 	defaults write /Users/"$currentUser"/Library/Preferences/com.apple.Terminal SecureKeyboardEntry -bool true
+	iTerm="$(defaults read -app iTerm | /usr/bin/grep -c "Couldn't find an application")"
+	if [ "$iTerm" -gt "0" ]; then
+		defaults write -app iTerm "Secure Input" -bool true
+	fi
 	echo "$(date -u)" "2.10 remediated" | tee -a "$logFile"
 fi
 

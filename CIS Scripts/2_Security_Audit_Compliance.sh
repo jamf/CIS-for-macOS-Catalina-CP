@@ -824,7 +824,8 @@ if [ "$Audit2_10" = "1" ]; then
 		echo "$(date -u)" "2.10 passed cp" | tee -a "$logFile"
 		$Defaults write "$plistlocation" OrgScore2_10 -bool false; else
 		secureKeyboard="$($Defaults read /Users/"$currentUser"/Library/Preferences/com.apple.Terminal SecureKeyboardEntry)"
-		if [ "$secureKeyboard" = "1" ]; then
+		iTermSecure="$($Defaults read -app iTerm 'Secure Input')"
+		if [ "$secureKeyboard" = "1" ] && ["$iTermSecure" -ne "0" ]; then
 			echo "$(date -u)" "2.10 passed" | tee -a "$logFile"
 			$Defaults write "$plistlocation" OrgScore2_10 -bool false; else
 			echo "* 2.10 Enable Secure Keyboard Entry in terminal.app" >> "$auditfilelocation"
