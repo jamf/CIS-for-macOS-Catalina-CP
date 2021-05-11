@@ -53,35 +53,6 @@ Maintenance Payload - Update Inventory
 * Policy: Some recurring trigger to track compliance over time. 
 
 
-NOTES: 
-
-* Item "1.1 Verify all Apple provided software is current" is disabled by default.
-* Item "2.1.2 Turn off Bluetooth "Discoverable" mode when not pairing devices - not applicable to 10.9 and higher."
-	Starting with OS X (10.9) Bluetooth is only set to Discoverable when the Bluetooth System Preference is selected. 
-	To ensure that the computer is not Discoverable do not leave that preference open.
-* Item "2.6.6 Enable Location Services (Not Scored)" is disabled by default.
-	As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
-	It is considered user opt in.
-* Item "2.6.7 Monitor Location Services Access (Not Scored)" is disabled by default.
-	As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
-	It is considered user opt in.
-* Item "2.7.1 Time Machine Auto-Backup " is disabled by default.
-	Time Machine is typically not used as an Enterprise backup solution
-* Item "2.7.2 Time Machine Volumes Are Encrypted (Not Scored)" is disabled by default.
-	Time Machine is typically not used as an Enterprise backup solution
-* Item "2.10 Securely delete files as needed (Not Scored)" is disabled by default.
-	With the wider use of FileVault and other encryption methods and the growing use of Solid State Drives
-	the requirements have changed and the "Secure Empty Trash" capability has been removed from the GUI.
-* Item "4.3 Create network specific locations (Not Scored)" is disabled by default.
-* Item "5.5 Automatically lock the login keychain for inactivity" is disabled by default.
-* Item "5.6 Ensure login keychain is locked when the computer sleeps" is disabled by default.
-* Item "5.15 Do not enter a password-related hint (Not Scored)" is disabled by default.
-	Not needed if 6.1.2 Disable "Show password hints" is enforced.
-* Item "5.17 Secure individual keychains and items (Not Scored)" is disabled by default.
-* Item "5.8 Create specialized keychains for different purposes (Not Scored)" is disabled by default.
-* Item "6.3 Safari disable Internet Plugins for global use (Not Scored)" is disabled by default.
-
-
 ### 2_Security_Audit_Compliance
 
 Run this before and after 3_Security_Remediation to audit the Remediation
