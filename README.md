@@ -9,7 +9,8 @@ Refers to document CIS_Apple_macOS_11.0_Benchmark_v1.1.0.pdf, available at https
 These scripts are intended to be used by jamf. However, if you want to manually benchmark your own **Big Sur** laptop, you can do so via the following steps:
 
 * Ensure that `/Library/Application Support/` exists. Note that sudo is required for its creation
-* Update `CIS Scripts/1_Set_Organization_Priorities.sh` if necessary. Checks can be enabled and disabled by changing their corresponding boolean values
+* Update `CIS Scripts/1_Set_Organization_Priorities.sh` if necessary. Checks can be enabled and disabled by changing their corresponding boolean values.
+* Run `CIS Scripts/1_Set_Organization_Priorities.sh` with sudo to populate the file `/Library/Application Support/SecurityScoring/org_security_score.plist` with the values defined beginning on line 460 of this script. This `.plist` file drives the following scripts. ***The next two steps will not work if this is not performed first.***
 * Run `CIS Scripts/2_Security_Audit_Compliance.sh` with sudo to run the benchmark
 * You can now get a list of all fails by using `Extension Attributes/2.5_Audit_List.sh` or remediate the fails using `CIS Scripts/3_Security_Remediation.sh` (sudo required as some checks cannot be run by standard users)
 
