@@ -80,7 +80,7 @@ OrgScore1_5="true"
 OrgScore1_6="false"
 
 # 2.1.1 Turn off Bluetooth, if no paired devices exist 
-OrgScore2_1_1="true"
+OrgScore2_1_1="false"
 
 # 2.1.2 Show Bluetooth status in menu bar 
 OrgScore2_1_2="true"
@@ -131,7 +131,7 @@ OrgScore2_4_4="true"
 
 # 2.4.5 Disable Remote Login 
 # SSH
-OrgScore2_4_5="true"
+OrgScore2_4_5="false"
 
 
 # 2.4.6 Disable DVD or CD Sharing
@@ -210,22 +210,22 @@ OrgScore2_6_1="true"
 
 # 2.6.2 iCloud keychain (Not Scored)
 # Configuration Profile - Restrictions payload > Functionality > Allow iCloud Keychain (unchecked)
-OrgScore2_6_2="true"
+OrgScore2_6_2="false"
 
 
 # 2.6.3 iCloud Drive (Not Scored)
 # Configuration Profile - Restrictions payload > Functionality > Allow iCloud Drive (unchecked)
-OrgScore2_6_3="true"
+OrgScore2_6_3="false"
 
 
 # 2.6.4 iCloud Drive Document sync
 # Configuration Profile - Restrictions payload - > Functionality > Allow iCloud Desktop & Documents (unchecked)
-OrgScore2_6_4="true"
+OrgScore2_6_4="false"
 
 
 # 2.6.5 iCloud Drive Desktop sync
 # Configuration Profile - Restrictions payload - > Functionality > Allow iCloud Desktop & Documents (unchecked)
-OrgScore2_6_5="true"
+OrgScore2_6_5="false"
 
 
 # 2.7.1 Time Machine Auto-Backup 
