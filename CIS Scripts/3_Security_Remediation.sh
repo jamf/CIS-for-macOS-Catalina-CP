@@ -135,14 +135,14 @@ if [ "$Audit2_1_1" = "1" ]; then
 	fi
 fi
 
-# 2.1.3 Show Bluetooth status in menu bar
+# 2.1.2 Show Bluetooth status in menu bar
 # Verify organizational score
-Audit2_1_3="$(defaults read "$plistlocation" OrgScore2_1_3)"
+Audit2_1_2="$(defaults read "$plistlocation" OrgScore2_1_2)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_1_3" = "1" ]; then
+if [ "$Audit2_1_2" = "1" ]; then
 	open "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
-	echo "$(date -u)" "2.1.3 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.1.2 remediated" | tee -a "$logFile"
 fi
 
 ## 2.2.1 Enable "Set time and date automatically" (Not Scored)
@@ -397,71 +397,69 @@ if [ "$Audit2_4_11" = "1" ]; then
 	echo "$(date -u)" "2.4.11 remediated - requires restart" | tee -a "$logFile"
 fi
 
-# 2.5.2 Enable Gatekeeper 
+# 2.5.2.1 Enable Gatekeeper 
 # Verify organizational score
-Audit2_5_2="$(defaults read "$plistlocation" OrgScore2_5_2)"
+Audit2_5_2_1="$(defaults read "$plistlocation" OrgScore2_5_2_1)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_2" = "1" ]; then
+if [ "$Audit2_5_2_1" = "1" ]; then
 	spctl --master-enable
-	echo "$(date -u)" "2.5.2 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.2.1 remediated" | tee -a "$logFile"
 fi
 
-# 2.5.3 Enable Firewall 
+# 2.5.2.2 Enable Firewall 
 # Remediation sets Firewall on for essential services
+# Verify organizational score
+Audit2_5_2_2="$(defaults read "$plistlocation" OrgScore2_5_2_2)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit2_5_2_2" = "1" ]; then
+	defaults write /Library/Preferences/com.apple.alf globalstate -int 2
+	echo "$(date -u)" "2.5.2.2 remediated" | tee -a "$logFile"
+fi
+
+# 2.5.2.3 Enable Firewall Stealth Mode 
+# Verify organizational score
+Audit2_5_2_3="$(defaults read "$plistlocation" OrgScore2_5_2_3)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit2_5_2_3" = "1" ]; then
+	/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+	echo "$(date -u)" "2.5.2.3 remediated" | tee -a "$logFile"
+fi
+
+# 2.5.3 Enable Location Services
 # Verify organizational score
 Audit2_5_3="$(defaults read "$plistlocation" OrgScore2_5_3)"
 # If organizational score is 1 or true, check status of client
-# If client fails, then remediate
 if [ "$Audit2_5_3" = "1" ]; then
-	defaults write /Library/Preferences/com.apple.alf globalstate -int 2
+	launchctl load -w /System/Library/LaunchDaemons/com.apple.locationd.plist
 	echo "$(date -u)" "2.5.3 remediated" | tee -a "$logFile"
 fi
 
-# 2.5.4 Enable Firewall Stealth Mode 
-# Verify organizational score
-Audit2_5_4="$(defaults read "$plistlocation" OrgScore2_5_4)"
-# If organizational score is 1 or true, check status of client
-# If client fails, then remediate
-if [ "$Audit2_5_4" = "1" ]; then
-	/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-	echo "$(date -u)" "2.5.4 remediated" | tee -a "$logFile"
-fi
-
-# 2.5.5 Review Application Firewall Rules
-# Verify organizational score
+# 2.5.5 Disable sending diagnostic and usage data to Apple
+# Verify Organizational score
 Audit2_5_5="$(defaults read "$plistlocation" OrgScore2_5_5)"
 # If organizational score is 1 or true, check status of client
-# If client fails, then alert to need of remediation
-if [ "$Audit2_5_5" = "1" ]; then
-	echo "$(date -u)" "2.5.5 not remediated" | tee -a "$logFile"
-fi
-
-# 2.5.6 Enable Location Services
-
-# 2.5.8 Disable sending diagnostic and usage data to Apple
-# Verify Organizational score
-Audit2_5_8="$(defaults read "$plistlocation" OrgScore2_5_8)"
-# If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_8" = "1" ]; then
+if [ "$Audit2_5_5" = "1" ]; then
 	AppleDiagn=$(defaults read /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit)
 	if [ $AppleDiagn == 1 ]; then 
 		defaults write /Library/Application\ Support/CrashReporter/DiagnosticMessagesHistory.plist AutoSubmit -int 0
-		echo "$(date -u)" "2.5.8 remediated" | tee -a "$logFile"
+		echo "$(date -u)" "2.5.5 remediated" | tee -a "$logFile"
 	fi
 fi
 
-# 2.5.9 Force Limited Ad Tracking
+# 2.5.6 Limit Ad tracking and personalized Ads
 # Verify Organizational score
-Audit2_5_9="$(defaults read "$plistlocation" OrgScore2_5_9)"
+Audit2_5_6="$(defaults read "$plistlocation" OrgScore2_5_6)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_5_9" = "1" ]; then
+if [ "$Audit2_5_6" = "1" ]; then
 	defaults write /Users/"${currentUser}"/Library/Preferences/com.apple.AdLib.plist forceLimitAdTracking -bool true
 	chown "${currentUser}":staff /Users/"${currentUser}"/Library/Preferences/com.apple.AdLib.plist
-	echo "$(date -u)" "2.5.9 consider using a configuration profile" | tee -a "$logFile"
-	echo "$(date -u)" "2.5.9 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.6 consider using a configuration profile" | tee -a "$logFile"
+	echo "$(date -u)" "2.5.6 remediated" | tee -a "$logFile"
 fi
 
 # 2.7.1 Time Machine Auto-Backup
@@ -474,36 +472,41 @@ if [ "$Audit2_7_1" = "1" ]; then
 	echo "$(date -u)" "2.7.1 remediated" | tee -a "$logFile"
 fi
 
-# 2.8 Pair the remote control infrared receiver if enabled
+# 2.8 Disable "Wake for network access"
 # Verify organizational score
 Audit2_8="$(defaults read "$plistlocation" OrgScore2_8)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_8" = "1" ]; then
-	defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -bool false
+	pmset -a womp 0
+	pmset -a powernap 0
 	echo "$(date -u)" "2.8 remediated" | tee -a "$logFile"
 fi
 
-# 2.9 Enable Secure Keyboard Entry in terminal.app 
+# 2.9 Disable Power Nap
 # Verify organizational score
 Audit2_9="$(defaults read "$plistlocation" OrgScore2_9)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit2_9" = "1" ]; then
-	defaults write /Users/"$currentUser"/Library/Preferences/com.apple.Terminal SecureKeyboardEntry -bool true
+	pmset -a powernap 0
 	echo "$(date -u)" "2.9 remediated" | tee -a "$logFile"
 fi
 
-# 2.12 Disable "Wake for network access"
+# 2.10 Enable Secure Keyboard Entry in terminal.app 
 # Verify organizational score
-Audit2_12="$(defaults read "$plistlocation" OrgScore2_12)"
+Audit2_10="$(defaults read "$plistlocation" OrgScore2_10)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit2_12" = "1" ]; then
-	pmset -a womp 0
-	pmset -a powernap 0
-	echo "$(date -u)" "2.12 remediated" | tee -a "$logFile"
+if [ "$Audit2_10" = "1" ]; then
+	defaults write /Users/"$currentUser"/Library/Preferences/com.apple.Terminal SecureKeyboardEntry -bool true
+	iTerm="$(defaults read -app iTerm | /usr/bin/grep -c "Couldn't find an application")"
+	if [ "$iTerm" -gt "0" ]; then
+		defaults write -app iTerm "Secure Input" -bool true
+	fi
+	echo "$(date -u)" "2.10 remediated" | tee -a "$logFile"
 fi
+
 
 # 3.1 Enable security auditing
 # Verify organizational score
@@ -528,26 +531,49 @@ if [ "$Audit3_2" = "1" ]; then
 	echo "$(date -u)" "3.2 remediated" | tee -a "$logFile"
 fi
 
-# 3.3 Ensure security auditing retention
+# 3.3 Retain install.log for 365 or more days 
 # Verify organizational score
 Audit3_3="$(defaults read "$plistlocation" OrgScore3_3)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit3_3" = "1" ]; then
-	cp /etc/security/audit_control /etc/security/audit_control_old
-	oldExpireAfter=$(cat /etc/security/audit_control | egrep expire-after)
-	sed "s/${oldExpireAfter}/expire-after:60d OR 1G/g" /etc/security/audit_control_old > /etc/security/audit_control
-	chmod 644 /etc/security/audit_control
-	chown root:wheel /etc/security/audit_control
-	echo "$(date -u)" "3.3 remediated" | tee -a "$logfile"	
+	installRetention="$(grep -i ttl /etc/asl/com.apple.install | awk -F'ttl=' '{print $2}')"
+	if [[ "$installRetention" = "" ]]; then
+		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
+		sed '$s/$/ ttl=365/' /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
+		chmod 644 /etc/asl/com.apple.install
+		chown root:wheel /etc/asl/com.apple.install
+		echo "$(date -u)" "3.3 remediated" | tee -a "$logfile"	
+	else
+	if [[ "$installRetention" -lt "365" ]]; then
+		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
+		sed "s/"ttl=$installRetention"/"ttl=365"/g" /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
+		chmod 644 /etc/asl/com.apple.install
+		chown root:wheel /etc/asl/com.apple.install
+		echo "$(date -u)" "3.3 remediated" | tee -a "$logfile"	
+	fi
+	fi
 fi
-
-# 3.4 Control access to audit records
+# 3.4 Ensure security auditing retention
 # Verify organizational score
 Audit3_4="$(defaults read "$plistlocation" OrgScore3_4)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit3_4" = "1" ]; then
+	cp /etc/security/audit_control /etc/security/audit_control_old
+	oldExpireAfter=$(cat /etc/security/audit_control | egrep expire-after)
+	sed "s/${oldExpireAfter}/expire-after:60d OR 1G/g" /etc/security/audit_control_old > /etc/security/audit_control
+	chmod 644 /etc/security/audit_control
+	chown root:wheel /etc/security/audit_control
+	echo "$(date -u)" "3.4 remediated" | tee -a "$logfile"	
+fi
+
+# 3.5 Control access to audit records
+# Verify organizational score
+Audit3_5="$(defaults read "$plistlocation" OrgScore3_5)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit3_5" = "1" ]; then
 	chown -R root:wheel /var/audit
 	chmod -R 440 /var/audit
 	chown root:wheel /etc/security/audit_control
@@ -555,29 +581,6 @@ if [ "$Audit3_4" = "1" ]; then
 	"$(date -u)" "3.3 remediated" | tee -a "$logfile"	
 fi
 
-# 3.5 Retain install.log for 365 or more days 
-# Verify organizational score
-Audit3_5="$(defaults read "$plistlocation" OrgScore3_5)"
-# If organizational score is 1 or true, check status of client
-# If client fails, then remediate
-if [ "$Audit3_5" = "1" ]; then
-	installRetention="$(grep -i ttl /etc/asl/com.apple.install | awk -F'ttl=' '{print $2}')"
-	if [[ "$installRetention" = "" ]]; then
-		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
-		sed '$s/$/ ttl=365/' /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
-		chmod 644 /etc/asl/com.apple.install
-		chown root:wheel /etc/asl/com.apple.install
-		echo "$(date -u)" "3.5 remediated" | tee -a "$logfile"	
-	else
-	if [[ "$installRetention" -lt "365" ]]; then
-		mv /etc/asl/com.apple.install /etc/asl/com.apple.install.old
-		sed "s/"ttl=$installRetention"/"ttl=365"/g" /etc/asl/com.apple.install.old > /etc/asl/com.apple.install
-		chmod 644 /etc/asl/com.apple.install
-		chown root:wheel /etc/asl/com.apple.install
-		echo "$(date -u)" "3.5 remediated" | tee -a "$logfile"	
-	fi
-	fi
-fi
 
 # 3.6 Ensure firewall is configured to log
 # Verify organizational score
@@ -699,35 +702,35 @@ if [ "$Audit5_3" = "1" ]; then
 	echo "$(date -u)" "5.3 remediated" | tee -a "$logFile"
 fi
 
-# 5.4 Use a separate timestamp for each user/tty combo
+# 5.5 Use a separate timestamp for each user/tty combo
 # Verify organizational score
-Audit5_4="$(defaults read "$plistlocation" OrgScore5_4)"
+Audit5_5="$(defaults read "$plistlocation" OrgScore5_5)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit5_4" = "1" ]; then
+if [ "$Audit5_5" = "1" ]; then
 	sed -i ".old" '/Default !tty_tickets/d' /etc/sudoers
 	chmod 644 /etc/sudoers
 	chown root:wheel /etc/sudoers
-	echo "$(date -u)" "5.4 remediated" | tee -a "$logFile"
+	echo "$(date -u)" "5.5 remediated" | tee -a "$logFile"
 fi
 
-# 5.5 Automatically lock the login keychain for inactivity
+# 5.4 Automatically lock the login keychain for inactivity
 # 5.6 Ensure login keychain is locked when the computer sleeps
-# If both 5.5 and 5.6 need to be set, both commands must be run at the same time
+# If both 5.4 and 5.6 need to be set, both commands must be run at the same time
 # Verify organizational score
-Audit5_5="$(defaults read "$plistlocation" OrgScore5_5)"
+Audit5_4="$(defaults read "$plistlocation" OrgScore5_4)"
 Audit5_6="$(defaults read "$plistlocation" OrgScore5_6)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
-if [ "$Audit5_5" = "1" ] && [ "$Audit5_6" = 1 ]; then
-echo "$(date -u)" "Checking 5.5 and 5.6" | tee -a "$logFile"
+if [ "$Audit5_4" = "1" ] && [ "$Audit5_6" = 1 ]; then
+echo "$(date -u)" "Checking 5.4 and 5.6" | tee -a "$logFile"
 	security set-keychain-settings -l -u -t 21600s /Users/"$currentUser"/Library/Keychains/login.keychain
-	echo "$(date -u)" "5.5 and 5.6 remediated" | tee -a "$logFile"
-	elif [ "$Audit5_5" = "1" ] && [ "$Audit5_6" = 0 ]; then
-		echo "$(date -u)" "Checking 5.5" | tee -a "$logFile"
+	echo "$(date -u)" "5.4 and 5.6 remediated" | tee -a "$logFile"
+	elif [ "$Audit5_4" = "1" ] && [ "$Audit5_6" = 0 ]; then
+		echo "$(date -u)" "Checking 5.4" | tee -a "$logFile"
 		security set-keychain-settings -u -t 21600s /Users/"$currentUser"/Library/Keychains/login.keychain
-		echo "$(date -u)" "5.5 remediated" | tee -a "$logFile"
-		elif [ "$Audit5_5" = "0" ] && [ "$Audit5_6" = 1 ]; then
+		echo "$(date -u)" "5.4 remediated" | tee -a "$logFile"
+		elif [ "$Audit5_4" = "0" ] && [ "$Audit5_6" = 1 ]; then
 			echo "$(date -u)" "Checking 5.6" | tee -a "$logFile"
 			security set-keychain-settings -l /Users/"$currentUser"/Library/Keychains/login.keychain
 			echo "$(date -u)" "5.6 remediated" | tee -a "$logFile"
@@ -831,15 +834,35 @@ if [ "$Audit5_16" = "1" ]; then
 	echo "$(date -u)" "5.16 remediated" | tee -a "$logFile"
 fi
 
-# 5.19 System Integrity Protection status
+# 5.18 System Integrity Protection status
+# Verify organizational score
+Audit5_18="$(defaults read "$plistlocation" OrgScore5_18)"
+# If organizational score is 1 or true, check status of client
+# If client fails, then remediate
+if [ "$Audit5_18" = "1" ]; then
+	echo "This tool needs to be executed from the Recovery OS."
+	#/usr/bin/csrutil enable
+	#echo "$(date -u)" "5.18 remediated" | tee -a "$logFile"
+fi
+
+# 5.19 Enable Sealed System Volume (SSV)
 # Verify organizational score
 Audit5_19="$(defaults read "$plistlocation" OrgScore5_19)"
 # If organizational score is 1 or true, check status of client
 # If client fails, then remediate
 if [ "$Audit5_19" = "1" ]; then
 	echo "This tool needs to be executed from the Recovery OS."
-	#/usr/bin/csrutil enable
+	#/usr/bin/csrutil authenticated-root enable
 	#echo "$(date -u)" "5.19 remediated" | tee -a "$logFile"
+fi
+
+# 5.20 Enable Library Validation 
+# Verify organizational score
+Audit5_20="$(defaults read "$plistlocation" OrgScore5_20)"
+# If organizational score is 1 or true, check status of client
+if [ "$Audit5_20" = "1" ]; then
+	defaults write /Library/Preferences/com.apple.security.librarayvalidation.plist DisableLibraryValidation -bool false
+	echo "$(date -u)" "5.20 remediated" | tee -a "$logFile"
 fi
 
 # 6.1.1 Display login window as name and password

@@ -89,13 +89,9 @@ OrgScore1_6="true"
 OrgScore2_1_1="true"
 # OrgScore2_1_1="false"
 
-## 2.1.2 Turn off Bluetooth "Discoverable" mode when not pairing devices - not applicable to 10.9 and higher.
-## Starting with OS X (10.9) Bluetooth is only set to Discoverable when the Bluetooth System Preference is selected. 
-## To ensure that the computer is not Discoverable do not leave that preference open.
-
-# 2.1.3 Show Bluetooth status in menu bar 
-OrgScore2_1_3="true"
-# OrgScore2_1_3="false"
+# 2.1.2 Show Bluetooth status in menu bar 
+OrgScore2_1_2="true"
+# OrgScore2_1_2="false"
 
 # 2.2.1 Enable "Set time and date automatically" 
 OrgScore2_2_1="true"
@@ -154,8 +150,8 @@ OrgScore2_4_6="true"
 # OrgScore2_4_6="false"
 
 # 2.4.7 Disable Bluetooth Sharing 
-OrgScore2_4_7="true"
-# OrgScore2_4_7="false"
+#OrgScore2_4_7="true"
+OrgScore2_4_7="false"
 
 # 2.4.8 Disable File Sharing 
 OrgScore2_4_8="true"
@@ -188,41 +184,36 @@ OrgScore2_5_1_2="true"
 OrgScore2_5_1_3="true"
 # OrgScore2_5_1_3="false"
 
-# 2.5.2 Enable Gatekeeper
+# 2.5.2.1 Enable Gatekeeper
 # Configuration Profile - Security and Privacy payload > General > Gatekeeper > Mac App Store and identified developers (selected)
-OrgScore2_5_2="true"
-# OrgScore2_5_2="false"
+OrgScore2_5_2_1="true"
+# OrgScore2_5_2_1="false"
 
-# 2.5.3 Enable Firewall 
+# 2.5.2.2 Enable Firewall 
 # Configuration Profile - Security and Privacy payload > Firewall > Enable Firewall (checked)
+OrgScore2_5_2_2="true"
+# OrgScore2_5_2_2="false"
+
+# 2.5.2.3 Enable Firewall Stealth Mode 
+# Configuration Profile - Security and Privacy payload > Firewall > Enable stealth mode (checked)
+OrgScore2_5_2_3="true"
+# OrgScore2_5_2_3="false"
+
+# 2.5.3 Enable Location Services
 OrgScore2_5_3="true"
 # OrgScore2_5_3="false"
-
-# 2.5.4 Enable Firewall Stealth Mode 
-# Configuration Profile - Security and Privacy payload > Firewall > Enable stealth mode (checked)
-OrgScore2_5_4="true"
-# OrgScore2_5_4="false"
-
-# 2.5.5 Review Application Firewall Rules 
-# Configuration Profile - Security and Privacy payload > Firewall > Control incoming connections for specific apps (selected)
-OrgScore2_5_5="true"
-# OrgScore2_5_5="false"
-
-## 2.5.6 Enable Location Services (Not Scored)
-## As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
-## It is considered user opt in.
 
 ## 2.5.7 Monitor Location Services Access (Not Scored)
 ## As of macOS 10.12.2, Location Services cannot be enabled/monitored programmatically.
 ## It is considered user opt in.
 
-# 2.5.8 Disable sending diagnostic and usage data to Apple
-OrgScore2_5_8="true"
-# OrgScore2_5_8="false"
+# 2.5.5 Disable sending diagnostic and usage data to Apple
+OrgScore2_5_5="true"
+# OrgScore2_5_5="false"
 
-# 2.5.9 Review Advertising Settings (Not Scored)
-OrgScore2_5_9="true"
-# OrgScore2_5_9="false"
+# 2.5.6 Limit Ad tracking and personalized Ads 
+OrgScore2_5_6="true"
+# OrgScore2_5_6="false"
 
 # 2.6.1 iCloud configuration (Check for iCloud accounts) (Not Scored)
 OrgScore2_6_1="true"
@@ -256,15 +247,18 @@ OrgScore2_7_1="false"
 ## 2.7.2 Time Machine Volumes Are Encrypted (Not Scored)
 ## Time Machine is typically not used as an Enterprise backup solution
 
-# 2.8 Pair the remote control infrared receiver if enabled
-# Since 2013 only the Mac Mini has an infrared receiver
+# 2.8 Disable "Wake for network access"
 OrgScore2_8="true"
 # OrgScore2_8="false"
 
-# 2.9 Enable Secure Keyboard Entry in terminal.app 
-# Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
+# 2.9 Disable Power Nap
 OrgScore2_9="true"
 # OrgScore2_9="false"
+
+# 2.10 Enable Secure Keyboard Entry in terminal.app 
+# Configuration Profile - Custom payload > com.apple.Terminal > SecureKeyboardEntry=true
+OrgScore2_10="true"
+# OrgScore2_10="false"
 
 ## 2.10 Securely delete files as needed (Not Scored)
 ## With the wider use of FileVault and other encryption methods and the growing use of Solid State Drives
@@ -275,9 +269,6 @@ OrgScore2_9="true"
 OrgScore2_11="true"
 # OrgScore2_11="false"
 
-# 2.12 Disable "Wake for network access" and "Power Nap"
-OrgScore2_12="true"
-# OrgScore2_12="false"
 
 # 3.1 Enable security Auditing
 OrgScore3_1="true"
@@ -287,15 +278,15 @@ OrgScore3_1="true"
 OrgScore3_2="true"
 # OrgScore3_2="false"
 
-# 3.3 Ensure security auditing retention
+# 3.3 Retain install.log for 365 or more days
 OrgScore3_3="true"
 # OrgScore3_3="false"
 
-# 3.4 Control access to audit records
+# 3.4 Ensure security auditing retention
 OrgScore3_4="true"
 # OrgScore3_4="false"
 
-# 3.5 Retain install.log for 365 or more days 
+# 3.5 Control access to audit records 
 OrgScore3_5="true"
 # OrgScore3_5="false"
 
@@ -350,11 +341,11 @@ OrgScore5_1_4="true"
 OrgScore5_3="true"
 # OrgScore5_3="false"
 
-# 5.4 Use a separate timestamp for each user/tty combo
+# 5.4 Automatically lock the login keychain for inactivity
 OrgScore5_4="true"
 # OrgScore5_4="false"
 
-# 5.5 Automatically lock the login keychain for inactivity
+# 5.5 Use a separate timestamp for each user/tty combo
 # This is a very bad idea. It will confuse users.
 # OrgScore5_5="true"
 OrgScore5_5="false"
@@ -410,11 +401,18 @@ OrgScore5_16="true"
 
 ## 5.17 Secure individual keychains and items (Not Scored)
 
-## 5.18 Create specialized keychains for different purposes (Not Scored)
 
-# 5.19 System Integrity Protection status
+# 5.18 System Integrity Protection status
+OrgScore5_18="true"
+# OrgScore5_18="false"
+
+# 5.19 Enable Sealed System Volume (SSV) 
 OrgScore5_19="true"
 # OrgScore5_19="false"
+
+# 5.20 Enable Library Validation 
+OrgScore5_20="true"
+# OrgScore5_20="false"
 
 # 6.1.1 Display login window as name and password 
 # Configuration Profile - LoginWindow payload > Window > LOGIN PROMPT > Name and password text fields (selected)
@@ -477,8 +475,8 @@ cat << EOF > "$plistlocation"
 		<${OrgScore1_6}/>
 		<key>OrgScore2_1_1</key>
 		<${OrgScore2_1_1}/>
-		<key>OrgScore2_1_3</key>
-		<${OrgScore2_1_3}/>
+		<key>OrgScore2_1_2</key>
+		<${OrgScore2_1_2}/>
 		<key>OrgScore2_2_1</key>
 		<${OrgScore2_2_1}/>
 		<key>OrgScore2_2_2</key>
@@ -517,18 +515,18 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_5_1_2}/>
 		<key>OrgScore2_5_1_3</key>
 		<${OrgScore2_5_1_3}/>
-		<key>OrgScore2_5_2</key>
-		<${OrgScore2_5_2}/>
+		<key>OrgScore2_5_2_1</key>
+		<${OrgScore2_5_2_1}/>
+		<key>OrgScore2_5_2_2</key>
+		<${OrgScore2_5_2_2}/>
+		<key>OrgScore2_5_2_3</key>
+		<${OrgScore2_5_2_3}/>
 		<key>OrgScore2_5_3</key>
 		<${OrgScore2_5_3}/>
-		<key>OrgScore2_5_4</key>
-		<${OrgScore2_5_4}/>
 		<key>OrgScore2_5_5</key>
 		<${OrgScore2_5_5}/>
-		<key>OrgScore2_5_8</key>
-		<${OrgScore2_5_8}/>
-		<key>OrgScore2_5_9</key>
-		<${OrgScore2_5_9}/>
+		<key>OrgScore2_5_6</key>
+		<${OrgScore2_5_6}/>
 		<key>OrgScore2_6_1</key>
 		<${OrgScore2_6_1}/>
 		<key>OrgScore2_6_2</key>
@@ -547,8 +545,6 @@ cat << EOF > "$plistlocation"
 		<${OrgScore2_9}/>
 		<key>OrgScore2_11</key>
 		<${OrgScore2_11}/>
-		<key>OrgScore2_12</key>
-		<${OrgScore2_12}/>
 		<key>OrgScore3_1</key>
 		<${OrgScore3_1}/>
 		<key>OrgScore3_2</key>
@@ -603,8 +599,12 @@ cat << EOF > "$plistlocation"
 		<${OrgScore5_14}/>
 		<key>OrgScore5_16</key>
 		<${OrgScore5_16}/>
+		<key>OrgScore5_18</key>
+		<${OrgScore5_18}/>
 		<key>OrgScore5_19</key>
 		<${OrgScore5_19}/>
+		<key>OrgScore5_20</key>
+		<${OrgScore5_20}/>
 		<key>OrgScore6_1_1</key>
 		<${OrgScore6_1_1}/>
 		<key>OrgScore6_1_2</key>
