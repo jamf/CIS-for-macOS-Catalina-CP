@@ -1,4 +1,7 @@
-# CIS for macOS Catalina - Script and Configuration Profile Remediation
+# Content here is depreciated. Please go to https://github.com/usnistgov/macos_security for current security benchmarks and workflows
+
+
+## CIS for macOS Catalina - Script and Configuration Profile Remediation
 ## INFO:
 
 Refers to document CIS_Apple_OSX_10.15_Benchmark_v1.0.0.pdf, available at https://benchmarks.cisecurity.org
